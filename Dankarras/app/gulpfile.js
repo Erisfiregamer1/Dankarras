@@ -73,8 +73,8 @@ gulp.task('rev-clean', ["compile-client", "rev-rename"], function gulpRevClean()
 gulp.task("run", ["build"], function gulpRun() {
     nodemon({
         delay: 1000,
-        script: "./server/server.js",
-        cwd: "./bin/",
+        script: "arrasio/server/server.js",
+        cwd: "bin/",
         args: ["config.json"],
         ext: "html js css"
     })
