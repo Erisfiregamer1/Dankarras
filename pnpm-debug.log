@@ -1,0 +1,75 @@
+---
+  0 debug pnpm:scope: 
+    selected: 1
+    workspacePrefix: null
+  1 info pnpm: 
+    message: "A store server is running. All store manipulations are delegated to it."
+    prefix: "/app"
+  2 debug pnpm:package-json: 
+    initial: 
+      name: "arras-io"
+      version: "1.0.0"
+      description: "A fanmade sequel to diep.io"
+      main: "server/server.js"
+      scripts: 
+        start: "gulp run"
+      author: 
+        name: "Anthony Hengst"
+      license: "GNU GPL3"
+      contributors: 
+        - 
+          name: "nepphhhh"
+          email: "nephdev@gmail.com"
+        - 
+          name: "Dank"
+          email: "jake.robbibaro@gmail.com"
+      dependencies: 
+        babel-core: "^6.24.1"
+        babel-loader: "^6.4.1"
+        babel-preset-es2015: "^6.24.1"
+        chai: "^3.5.0"
+        express: "^4.13.4"
+        fs: "^0.0.2"
+        google-closure-library: "^20170910.0.0"
+        gulp: "^3.9.1"
+        gulp-babel: "^6.1.2"
+        gulp-jshint: "^2.0.1"
+        gulp-mocha: "^2.2.0"
+        gulp-nodemon: "^2.0.7"
+        gulp-rev: "^8.1.1"
+        gulp-rev-dist-clean: "^1.0.4"
+        gulp-rev-replace: "^0.4.3"
+        gulp-todo: "^4.1.0"
+        gulp-uglify: "^1.5.4"
+        gulp-util: "^3.0.7"
+        jshint: "^2.9.2"
+        keypress: "^0.2.1"
+        mocha: "^2.5.3"
+        nodemon: "^1.9.2"
+        paper: "^0.11.5"
+        rev-del: "^1.0.5"
+        rimraf: "^2.6.2"
+        sat: "^0.6.0"
+        seedrandom: "^2.4.3"
+        simple-node-logger: "^0.93.33"
+        simple-quadtree: "^0.1.3"
+        webpack: "^1.4.0"
+        webpack-stream: "^3.2.0"
+        ws: "^3.3.2"
+        eris: "^0.10.1"
+      engines: 
+        node: "8.x"
+      readme: "# Dankarras\narras.io private sever hosted by: Ɗคᶇƙツ™©\n\n**Devolpment team**\n\n`Ɗคᶇƙツ` (LEAD DEV)\n\n`AC` (Dev of ACarras, One of Dank's best friends)\n\n`Fillygroove` (Dev of Hellcat's Arras, Good coder)\n\n`CancelX` (Dev of Arrascraft, from which this server was spawned from)\n\n`mse` (Co-Dev of Arrascraft)\n\n`VarixDog` (Dev of his server, DUH)\n\n`Eris` (Part-time dev of arrascraft, main dev of Arras2)\n\n`KoleOBlack` (Developer of ArrasShrine)\n"
+      readmeFilename: "README.md"
+      gitHead: "cbd2f75bf24fd33c67ad5acda5f01f7387882a81"
+      _id: "arras-io@1.0.0"
+    prefix: "/app"
+  3 error pnpm: 
+    message: 
+      code: "SHRINKWRAP_BREAKING_CHANGE"
+      filename: "/app/shrinkwrap.yaml"
+    err: 
+      name: "Error"
+      message: "Shrinkwrap file /app/shrinkwrap.yaml not compatible with current pnpm"
+      code: "SHRINKWRAP_BREAKING_CHANGE"
+      stack: "Error: Shrinkwrap file /app/shrinkwrap.yaml not compatible with current pnpm\n    at /opt/nvm/versions/node/v10.15.3/lib/node_modules/pnpm/lib/node_modules/@pnpm/shrinkwrap-file/lib/read.js:88:15\n    at Generator.next (<anonymous>)\n    at fulfilled (/opt/nvm/versions/node/v10.15.3/lib/node_modules/pnpm/lib/node_modules/@pnpm/shrinkwrap-file/lib/read.js:4:58)\n    at <anonymous>"
