@@ -1,0 +1,10 @@
+{
+  "name": "Dankarras-io",
+  "description": "A arras.io private server hosted by Ɗคᶇƙツ",
+  "scripts": {
+    "build": "gulp build",
+    "start": "gulp run",
+    "watch": "gulp watch",
+    "test": "gulp test"
+  }
+}
