@@ -1,6 +1,6 @@
 {
-  "name": "Dankarras-io",
-  "description": "A arras.io private server hosted by Ɗคᶇƙツ",
+  "name": "Arrascraft-io",
+  "description": "A arras.io private server hosted by CancelX",
   "scripts": {
     "build": "gulp build",
     "start": "gulp run",

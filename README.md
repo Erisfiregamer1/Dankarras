@@ -1,20 +1,19 @@
-# Dankarras
-arras.io private sever hosted by: Ɗคᶇƙツ™©
+# ArrasCraft.io
+
+Arras.io private sever hosted by: CancelX
 
 **Devolpment team**
 
-`Ɗคᶇƙツ` (LEAD DEV)
+`CancelX` (MAIN DEV)
 
-`AC` (Dev of ACarras, One of Dank's best friends)
+`mse` (DEV of mse's Arras Server [msk](http://arras.surge.sh/#private=msk.glitch.me))
 
-`Fillygroove` (Dev of Hellcat's Arras, Good coder)
+`c4ke` (DEV - csgo.io)
 
-`CancelX` (Dev of Arrascraft, from which this server was spawned from)
+`Ɗคᶇƙツ` (DEV of Dank's Arras, Co-Dev of ACarras)
 
-`mse` (Co-Dev of Arrascraft)
+`Celestial` (DEV of Celestial's Arras [soundwave's arras](https://soundwave-arras.glitch.me/))
 
-`VarixDog` (Dev of his server, DUH)
+`AC` (DEV of ACarras)
 
-`Eris` (Part-time dev of arrascraft, main dev of Arras2)
-
-`KoleOBlack` (Developer of ArrasShrine)
+Insipred By CX and Neph

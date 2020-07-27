@@ -1,5 +1,5 @@
  exports.white =   "#DDE6EB"; // 0 
-    exports.orange =  "#FFA500"; // 1 x
+    exports.orange =  "#E7896D"; // 1 x
     exports.teal =    "#70D1CA"; // 2 x
     exports.pink =    "#F4A9C8"; // 3 x
     exports.lgreen =  "#B9E87E"; // 4 x
@@ -19,7 +19,7 @@
     exports.guiwhite ='#FFFFFF'; // -1 x
 
   exports.white =   "#FFF9F0";
-    exports.orange =  "#FFA500";
+    exports.orange =  "#F75E4E";
     exports.teal =    "#5BCDD7";
     exports.pink =    "#FC9FCE";
     exports.lgreen =  "#79D977";
@@ -38,7 +38,7 @@
 
 exports.teal    = '#70D1CA'; // 0 
 exports.lgreen  = '#B9E87E'; // 1 
-exports.orange  = '#FFA500'; // 2 
+exports.orange  = '#E7896D'; // 2 
 exports.yellow  = '#FDF380'; // 3 
 exports.lavender ='#B58EFD'; // 4 
 exports.pink    = '#EF99C3'; // 5 
@@ -46,8 +46,9 @@ exports.vlgrey  = '#EAEAEA'; // 6
 exports.lgrey   = '#D8D6D6'; // 7 
 exports.guiwhite ='#FFFFFF'; // 8 
 exports.black   = '#484848'; // 9 
+
 exports.blue    = '#3CA4CB'; // 10 
-exports.green   = '#495E07'; // 11
+exports.green   = '#8ABC3F'; // 11
 exports.red     = '#D83848'; // 12 
 exports.gold    = '#EFC74B'; // 13 
 exports.purple  = '#8D6ADF'; // 14 
@@ -60,12 +61,13 @@ exports.dred    = '#800000'; // 20
 exports.forest  = '#00cc00'; // 21
 exports.lblue   = '#ccffff'; // 22
 exports.tree    = '#009900'; // 23
-exports.ice     = '#30e3ff'; // 24
+exports.water   = '#7399d6'; // 24
 exports.platinum= '#4286f4'; // 25
 exports.heal    = '#90EE90'; // 26
-exports.poison  = '#00ff00'; // 27
-exports.fire    = '#8B0000'; // 28
-exports.electric= '#e6e600'; // 29
+exports.corrder = '#5d9947'; // 27
+exports.fire    = '#ff8c00'; // 28
+exports.electric= '#ffff00'; // 29
+exports.outlineVisibleOnly = '#ff2000'; //100
 
 
 exports.paletteSize = 10;

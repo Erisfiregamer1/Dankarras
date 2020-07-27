@@ -129,16 +129,25 @@ exports.time = () => {
     return Date.now() - exports.serverStartTime;
 };
 
-// create a custom timestamp format for log statements   
+/*// create a custom timestamp format for log statements
+const SimpleNodeLogger = require('simple-node-logger'),
+    logger = SimpleNodeLogger.createRollingFileLogger({
+        logDirectory: __dirname + '/../../../logs',
+        fileNamePattern:'diep2-<DATE>.log',
+        dateFormat:'YYYY-MM-DD',
+        level: 'warn',
+    });*/
 exports.log = text => {
     console.log('[' + (exports.time()/1000).toFixed(3) + ']: ' + text);
+    //logger.info(text);
 };
 exports.warn = text => {
     console.log('[' + (exports.time()/1000).toFixed(3) + ']: ' + '[WARNING] ' + text);
- 
+    //logger.warn(text);
 };
 exports.error = text => {
     console.log(text);
+    //logger.error(text);
 };
 exports.remove = (array, index) => {    
     // there is more than one object in the container

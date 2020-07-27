@@ -8,10 +8,11 @@
 </style>
 
 <head>
-    <!-- Meta Properties -->
+    <!-- Meta Properties-->
     <meta charset="UTF-8">
-  <title>Dankarras</title>
-    <meta name="description" content="Dankarras: Dank's arras server, nothing much. Functioning 8tdm, nice tanks..."/>
+    <title>Arrascraft</title>
+    <meta name="description" content="Blockiness intensifies">
+    <meta property="og:image" content="https://cdn.discordapp.com/icons/482914959936847882/d358ed461041a252b7d65008fc9b6fe7.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <!-- CSS -->
     <link rel="stylesheet" href="css/main.css" />
@@ -65,17 +66,11 @@
         <div id="startMenuWrapper">
             <div id="startMenu">
                 <div id="twitterHolder" class="startMenuHolder">
-                  <iframe src="https://discordapp.com/widget?id=471050630660882432&theme=dark" width="350" height="350" allowtransparency="true" frameborder="0"></iframe>
-                  <a data-theme="light">Check out the servers below</a>
-                  <a data-theme="light" data-link-color="#B9E87E" href="https://cdn.glitch.com/ffa9201f-aecc-43f2-b79e-346feddbd316%2FGame%20Music.mp3">Link to the game's music</a>
+                  <!--<script src="https://redditjs.com/subreddit.js" data-subreddit="Diep2io" data-width="350" data-height="335" data-subreddit-mode="large" data-show-submit="false" data-theme="dark"></script>-->
                   <div id="bottomHolder">
-            <a style="background:#5BCDD7" href="https://discord.gg/hwnhRwU">My Discord</a>
-            <a style="background:#5BCDD7" href="https://discord.gg/JY8dje2">AC's Discord</a>
-            <a style="background:#5BCDD7" href="https://discord.gg/tEeMBT8">HC's Discord</a>
-            <a style="background:#79D977" href="https://acarras.glitch.me/">ACarras</a>
-            <a style="background:#79D977" href="http://koleotank-arrasio-master2.glitch.me/">KoleOBlack's Arras</a>
-            <a style="background:#79D977" href="http://woomy.arras.io/">Filly's Arras</a>
-          
+            <a style="background:#7289DA" href="https://discord.gg/AUkMATb">Discord</a>
+            <a style="background:#F74501" href="https://www.reddit.com/r/Diep2io/">Reddit</a>
+            <a style="background:#CEB58F" href="https://cdn.glitch.com/ffa9201f-aecc-43f2-b79e-346feddbd316%2FGame%20Music.mp3">Music</a>
                     
           </div>
                 </div>
@@ -83,15 +78,15 @@
                     <div class="sliderHolder">
                         <div class="slider" id="startMenuSlidingContent">
                             <center><img src="/favicons/favicon-96x96.png" /></center>
-                            <h1>Dank's Arras.io</h1>
+                            <h1>Arrascraft.io</h1>
                             <div id="serverName"><h4 class="nopadding">Connecting...</h4></div>
-                            <input type="text" autofocus tabindex="1" spellcheck="false" placeholder="name:" id="playerNameInput" maxlength="30" />
-                            <input type="text" class="conceal" tabindex="3" placeholder="Beta Tester Token Goes Here." id="playerKeyInput" maxlength="64" />
+                            <input type="text" autofocus tabindex="1" spellcheck="false" placeholder="name:" id="playerNameInput" maxlength="24" />
+                            <input type="text" class="conceal" tabindex="3" placeholder="Input BT token here, if you have one." id="playerKeyInput" maxlength="64" />
                         </div>
-                        <div class="slider" id="startMenuSlidingTrigger"><h3 class="nopadding">view options</h3></div>
+                        <div class="slider" id="startMenuSlidingTrigger"><h3 class="nopadding">view options/help 🡲</h3></div>
                         <div class="slider" id="startMenuSlidingContent"> 
                             <br>
-                            <optionsHeader>Advanced Controls:</optionsHeader><br>
+                            <optionsheader>Advanced Controls:</optionsheader><br>
                             <table>
                                 <tr>
                                     <td><b>E</b>: auto-fire</td>
@@ -102,7 +97,7 @@
                                     <td><b>N</b>: level up (sandbox)</td>
                                 </tr>
                             </table>
-                            <optionsHeader>Options:</optionsHeader>
+                            <optionsheader>Options:</optionsheader>
                             <select id="optColors" tabindex="-1">
                                 <option value="normal">Light Colors</option>
                                 <option value="dark">Dark Colors</option>
@@ -114,16 +109,22 @@
                                 <option value="ocean">Coral Reef (Fan-made)</option>
                                 <option value="badlands">Badlands (Fan-made)</option>
                                 <option value="bleach">Bleach (Fan-made)</option>
-                                <option value="puredark">Pure Darkess (New)</option>
+                                <!--<option value="puredark">Pure Darkess (New)</option>-->
+                                <option value="space"> Space (New)</option>
+                                <option value="desert"> desert (inspired)</option> 
+                                <option value="solarized"> solarized (inspired)</option>
+                                <option value="solidcolors"> Plain Colors (New)</option>
+                                <option value="paint"> Paint (New)</option>
+                                <option value="battlefield"> Battlefield (New)</option>
                             </select>
                             <select id="optBorders" tabindex="-1">
-                                <option value="normal">Soft Borders</option>
+                                <option value="normal">Soft Borders</option> 
                                 <option value="dark">Dark Borders</option>
                                 <option value="neon">Neon Mode</option>
                                 <option value="glass">Glass Mode</option>
                             </select>
                              <audio loop id = "music">
-                            <source
+                                  <source
                                       type = "audio/mpeg"
                                       src = "https://cdn.glitch.com/ffa9201f-aecc-43f2-b79e-346feddbd316%2FGame%20Music.mp3?1538437414853"/>
                                  oof no music for u
@@ -160,6 +161,9 @@
                                      <td><div>
                                         <label><input id="optSound" tabindex="-1" class="checkbox" type="checkbox" onclick = "switchAudio()"> Music</label>
                                     </div></td>
+                                    <td><div>
+                                        <label><input id="optCir" tabindex="-1" class="checkbox" type="checkbox"> Circles </label>
+                                    </div></td>
                                   
                                 </tr>
                             </table>
@@ -180,6 +184,7 @@
                 </div>  
             </div>
       </div>
+    </div>
     <!-- JS -->
     <script src="//code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="js/app.js"></script>
@@ -212,4 +217,4 @@
     </script>
 </body>
 
-</html> 
+</html>

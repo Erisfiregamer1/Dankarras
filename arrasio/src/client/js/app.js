@@ -1,14 +1,14 @@
-//lets play the music
-var gamemusic = new Audio('Minecraft-story-mode-wither-storm-full-soundtrack.mp3');
-gamemusic.play();
-console.log('Starting music');
+ //lets play the music
+//var gamemusic = new Audio('Game_Music.mp3');
+//memusic.play();
+//nsole.log('Starting music');
 
 /*global require, console*/ 
 /*jshint -W097*/
 /*jshint browser: true*/
 "use strict";
 
-// Fundamental requires <3 
+// Fundamental requires <3
 //var global = require('./lib/global');
 //var util = require('./lib/util');
 
@@ -51,6 +51,8 @@ var global = {
     KEY_TP: 79,
     KEY_CUPCAKE: 186,
     KEY_GODM: 77,
+    KEY_RESET_BASIC: 80,
+    KEY_MSEEEEEEEEEE: 45,
 
     // Canvas
     screenWidth: window.innerWidth,
@@ -269,19 +271,21 @@ function getColor(colorNumber) {
          case 23:
             return '#009900'; 
          case 24:
-            return '#30e3ff';
+            return '#7399d6';
          case 25:
             return '#4286f4'; 
          case 26:
             return '#90EE90';
          case 27:
-            return '#00ff00';
+            return '#5d9947';
          case 28:
-            return '#8B0000';
+            return '#ff8c00';
          case 29:
-            return '#e6e600';
+            return '#ff6030';
          case 30:
-        return  '#ffff00';
+            return  '#ffff00';
+         case 100:
+            return  '#ff2000';
         default:
             return '#FF0000';
     }
@@ -292,7 +296,7 @@ function getColorDark(givenColor) {
     if (config.graphical.darkBorders) return dark;
     return mixColors(givenColor, dark, color.border);
 }
-
+  
 function getZoneColor(cell, real) {
     switch (cell) {
         case 'bas1':
@@ -310,22 +314,17 @@ function getZoneColor(cell, real) {
         case 'bas4':
         case 'bap4':
         case 'ctf4':
-            return color.purple;
+            return color.pink;
         case 'bas5':
         case 'bap5':
         case 'ctf5':
             return color.yellow;
-        case 'bas6':
-        case 'bap6':
-            return color.black;
-        case 'bas7':
-        case 'bap7':
-            return color.white;
-        case 'bas8':
-        case 'bap8':
-            return color.orange;
         case 'ctfX':
             return '#000000';
+        case "prti":
+        case 'prto':
+        case 'port':
+            return color.guiblack;
         case 'roid':
             return color.dgrey;
         case 'zone':
@@ -350,23 +349,30 @@ function getZoneColor(cell, real) {
 			case 'movr':
 			case 'movd':
 			case 'movu':
+      case 'movi':
+      case 'movo':
+      case 'mvur':
+      case 'mvul':
+      case 'mvdl':
+      case 'mvdr':
             return color.vlgrey
         default:
             return (real) ? color.white : color.lgrey;
     }
 }
 
-function setColor(context, givenColor) {
+function setColor(context, givenColor, center) {
     if (config.graphical.neon) {
         context.fillStyle = getColorDark(givenColor);
         context.strokeStyle = givenColor;
     } else {
-        context.fillStyle = givenColor;
+      
+      if (givenColor === '#ff2000') {context.fillStyle = '#00000000';} else {context.fillStyle = givenColor;}
         context.strokeStyle = getColorDark(givenColor);
     }
 }
 
-// Get mockups <3
+// Get mockups 
 var mockups = [];
 pullJSON('mockups').then(data => mockups = data);
 // Mockup functions
@@ -660,7 +666,12 @@ var gui = {
     },
     skills: [{
         amount: 0,
-        color: 'teal',
+        color: 'purple',
+        cap: 1,
+        softcap: 1,
+    }, {
+        amount: 0,
+        color: 'pink',
         cap: 1,
         softcap: 1,
     }, {
@@ -670,12 +681,7 @@ var gui = {
         softcap: 1,
     }, {
         amount: 0,
-        color: 'green',
-        cap: 1,
-        softcap: 1,
-    }, {
-        amount: 0,
-        color: 'orange',
+        color: 'lgreen',
         cap: 1,
         softcap: 1,
     }, {
@@ -685,27 +691,27 @@ var gui = {
         softcap: 1,
     }, {
         amount: 0,
-        color: 'white',
-        cap: 1,
-        softcap: 1,
-    }, {
-        amount: 0,
-        color: 'magenta',
-        cap: 1,
-        softcap: 1,
-    }, {
-        amount: 0,
         color: 'yellow',
         cap: 1,
         softcap: 1,
     }, {
         amount: 0,
-        color: 'purple',
+        color: 'green',
         cap: 1,
         softcap: 1,
     }, {
         amount: 0,
-        color: 'guiblack',
+        color: 'teal',
+        cap: 1,
+        softcap: 1,
+    }, {
+        amount: 0,
+        color: 'gold',
+        cap: 1,
+        softcap: 1,
+    }, {
+        amount: 0,
+        color: 'orange',
         cap: 1,
         softcap: 1,
     }],
@@ -843,12 +849,12 @@ global.time = 0;
 
 // Window setup <3
 global.mobile = /Android|webOS|BlackBerry/i.test(navigator.userAgent);
-var serverName = 'ƊคᶇƙツServer';
+var serverName = '4tdm mode';
 window.onload = () => {
     // Server name stuff
     switch (window.location.hostname) {
         case 'arras-static-test':
-            serverName = 'ƊคᶇƙツServer';
+            serverName = 'CancelXServer';
             break;
     }
     document.getElementById('serverName').innerHTML = '<h4 class="nopadding">' + serverName + '&nbsp;&nbsp;&nbsp; <a herf = "https://arrascraft-io.glitch.me/">Switch<a> (#c) </h4> ';
@@ -939,8 +945,15 @@ var Canvas = class Canvas {
             case global.KEY_LEVEL_UP:
                 this.parent.socket.talk('L');
                 break;
+            
             case global.KEY_FUCK_YOU:
                 this.parent.socket.talk('0');
+                break;
+            case global.KEY_RESET_BASIC:
+                this.parent.socket.talk('5');
+                break;
+            case global.KEY_MSEEEEEEEEEE:
+                this.parent.socket.talk('1');
                 break;
             case global.KEY_FIREFOOD:
                 this.parent.socket.talk('P');
@@ -958,7 +971,7 @@ var Canvas = class Canvas {
                     this.parent.socket.talk('t', 2);
                     break;
                 case global.KEY_GODM:
-                    this.parent.socket.talk('t', 3);
+                    //this.parent.socket.talk('t', 3);
                     break;
                 case global.KEY_CHAT:
                     //this.parent.socket.talk('h');
@@ -966,7 +979,6 @@ var Canvas = class Canvas {
                 case global.KEY_CUPCAKE:
                     this.parent.socket.talk('g', 0);
                     break;
-
                 case global.KEY_TP:
                     this.parent.socket.talk('g', 1);
                     break;
@@ -1008,34 +1020,6 @@ var Canvas = class Canvas {
                         break;
                 }
 
-            }
-            if (global.canUpgrade) {
-                switch (event.keyCode) {
-                    case global.KEY_CHOOSE_1:
-                        this.parent.socket.talk('U', 0);
-                        break;
-                    case global.KEY_CHOOSE_2:
-                        this.parent.socket.talk('U', 1);
-                        break;
-                    case global.KEY_CHOOSE_3:
-                        this.parent.socket.talk('U', 2);
-                        break;
-                    case global.KEY_CHOOSE_4:
-                        this.parent.socket.talk('U', 3);
-                        break;
-                    case global.KEY_CHOOSE_5:
-                        this.parent.socket.talk('U', 4);
-                        break;
-                    case global.KEY_CHOOSE_6:
-                        this.parent.socket.talk('U', 5);
-                        break;
-                    case global.KEY_CHOOSE_7:
-                        this.parent.socket.talk('U', 6);
-                        break;
-                    case global.KEY_CHOOSE_8:
-                        this.parent.socket.talk('U', 7);
-                        break;
-                }
             }
         }
     }
@@ -1995,7 +1979,7 @@ const socketInit = (() => {
                             setTimeout(() => {
                                 socket.talk('S', getNow());
                             }, 10);
-                            global.message = "Tip: Press 'N' to level up after you spawn - " + sync.length + "/10...";
+                            global.message = "Tip: Beware of safety. - " + sync.length + "/10...";
                         } else {
                             // Calculate the clock error
                             sync.sort((e, f) => {
@@ -2455,205 +2439,8 @@ const drawEntity = (() => {
                 let y = centerY + radius * Math.sin(theta + angle+3.14159265);
                 context.lineTo(x, y);
             }
-               } else if (sides === 118) { // Blue Runner
-						for (let [scale, theta] of [
-							[0.9, 0],
-							[0.625, .698],
-							[-0.35, -1.361],
-							[-0.75, -1.204],
-							[-1, -0.453],
-							[-0.563, -0.559],
-							[-0.563, .559],
-							[-1, .453],
-							[-0.75, 1.204],
-							[-0.35, 1.361],
-							[0.625, -0.698]
-						]) context.lineTo(
-							centerX + radius * scale  * Math.cos(angle + (theta - .0261)),
-							centerY + radius * scale * Math.sin(angle + (theta - .0261))
-						);
-                  } else if (sides === 113) { // Waller
-						for (let [scale, theta] of [
-							[1, .611],
-							[1, 1.571],
-							[-1.25, -0.698],
-							[-0.5, -0.698],
-							[-0.5, .698],
-							[-1.25, .698],
-							[1, -1.571],
-							[1, -0.611]
-						]) context.lineTo(
-							centerX + radius * scale * Math.cos(angle + theta),
-							centerY + radius * scale * Math.sin(angle + theta)
-						);
-                     } else if (sides === 107) {
-						for (let [scale, theta] of [
-							[1, 0],
-							[1, .286 * Math.PI],
-							[1, .571 * Math.PI],
-							[0.36, Math.PI / 2],
-							[-0.75, 0],
-							[0.36, -(Math.PI / 2)],
-							[1, 1.429 * Math.PI],
-							[1, 1.714 * Math.PI]
-						]) context.lineTo(
-							centerX + radius * scale * Math.cos(angle + theta),
-							centerY + radius * scale * Math.sin(angle + theta)
-						);
-                 } else if (sides === 125) { //NO U
-						context.save();
-						context.translate(centerX, centerY);
-						context.rotate(angle);
-						let borderRadius = .4, // 0 = square, 1 = circle
-							centerAway = radius * (1 - borderRadius),
-							scaleRadius = radius * borderRadius;
-						context.arc(centerAway, centerAway, scaleRadius, 0, .5 * Math.PI);
-						context.arc(-centerAway, centerAway, scaleRadius, .5 * Math.PI, Math.PI);
-						context.arc(-centerAway, -centerAway, scaleRadius, Math.PI, 1.5 * Math.PI);
-						context.arc(centerAway, -centerAway, scaleRadius, -0.5 * Math.PI, 0);
-						context.restore();
-                     } else if (sides === 126) { // 
-						let borderRadius = .4,
-							centerAway = radius * (1 - borderRadius),
-							scaleRadius = radius * borderRadius;
-						context.arc(centerX + centerAway, centerY + centerAway, scaleRadius, angle, .5 * Math.PI + angle);
-						context.arc(centerX - centerAway, centerY + centerAway, scaleRadius, .5 * Math.PI + angle, Math.PI + angle);
-						context.arc(centerX - centerAway, centerY - centerAway, scaleRadius, Math.PI + angle, 1.5 * Math.PI + angle);
-						context.arc(centerX + centerAway, centerY - centerAway, scaleRadius, -0.5 * Math.PI + angle, angle);
-                        } else if (sides === 114) { // Vis Destructia
-						for (let [scale, theta] of [
-							[0.25, .611],
-							[-1, -0.838],
-							[-0.5, -0.436],
-							[0, 0],
-							[-0.5, .436],
-							[-1, .838],
-							[0.25, -0.611]
-						]) context.lineTo(
-							centerX + radius * scale * Math.cos(angle + (theta - .025)),
-							centerY + radius * scale * Math.sin(angle + (theta - .025))
-						);
-                 } else if (sides === 120) { // Spiked Runner
-						for (let [scale, theta] of [
-							[0.625, 0],
-							[1, .489],
-							[0.313, .576],
-							[0.5, 1.518],
-							[-0.875, -1.03],
-							[-0.375, -0.768],
-							[-0.938, 0],
-							[-0.375, .768],
-							[-0.875, 1.03],
-							[0.5, -1.518],
-							[0.313, -0.576],
-							[1, -0.489]
-						]) context.lineTo(
-							centerX + radius * scale * Math.cos(angle + (theta - .0261)),
-							centerY + radius * scale * Math.sin(angle + (theta - .0261))
-						);
-					} else if (sides === 108) { // Tri-Blade
-						for (let i = 0; i < 12; i++) {
-							let theta = (i / 12) * 2 * Math.PI,
-								x = centerX + radius * Math.cos(theta + (angle - .025)),
-								y = centerY + radius * Math.sin(theta + (angle - .025));
-							if (i === 2 || i === 10 || i === 6) {
-								x = centerX + (radius / 2) * Math.cos(theta + (angle - .025));
-								y = centerY + (radius / 2) * Math.sin(theta + (angle - .025));
-							}
-							if (i === 0 || i === 4 || i === 8) {
-								x = centerX + (radius * 1.25) * Math.cos(theta + (angle - .025));
-								y = centerY + (radius * 1.25) * Math.sin(theta + (angle - .025));
-							}
-							context.lineTo(x, y);
-						}
-            }
-          
-            else if (sides === 103) { // Pacman
-                            for (let i = 0; i < 360; i++) {
-                                let theta = (i / 360) * 2 * Math.PI,
-                                    x = centerX + radius * Math.cos(theta + angle),
-                                    y = centerY + radius * Math.sin(theta + angle);
-                                if (i === 135) {
-                                    x = centerX;
-                                    y = centerY;
-                                } else if (i > 135) {
-                                    x = centerX + radius * Math.cos(((((i + 90) / 360) * 2) * Math.PI) + angle);
-                                    y = centerY + radius * Math.sin(((((i + 90) / 360) * 2) * Math.PI) + angle);
-                                }
-                                context.lineTo(x, y);
-                            } 
-            } 
-            else if (sides === 106) { // Pulsar
-                            for (let i = 0; i < 7; i++) {
-                                let theta = (i / 5) * 2 * Math.PI,
-                                    x = centerX + radius * Math.cos(theta + angle),
-                                    y = centerY + radius * Math.sin(theta + angle);
-                                if (i === 3) {
-                                    x = centerX + (radius / 2.75) * Math.cos(angle + Math.PI / 2);
-                                    y = centerY + (radius / 2.75) * Math.sin(angle + Math.PI / 2);
-                                } else if (i === 4) {
-                                    x = centerX + (radius / 2.75) * Math.cos(angle - Math.PI / 2);
-                                    y = centerY + (radius / 2.75) * Math.sin(angle - Math.PI / 2);
-                                }
-                                if (i > 4) {
-                                    theta = ((i - 2) / 5) * 2 * Math.PI,
-                                    x = centerX + radius * Math.cos(theta + angle);
-                                    y = centerY + radius * Math.sin(theta + angle);
-                                }
-                                context.lineTo(x, y);
-                            }
-                        }
-      else if (sides === 102) { // Crusher.
-                            for (let i = 0; i < 6; i++) {
-                                let theta = (i / 5) * 2 * Math.PI,
-                                    x = centerX + radius * Math.cos(theta + angle),
-                                    y = centerY + radius * Math.sin(theta + angle);
-                                if (i === 3) {
-                                    x = centerX + 1.6;
-                                    y = centerY;
-                                }
-                                if (i > 3) {
-                                    x = centerX + radius * Math.cos(((i === 4 ? 1.18 : 1.58) * Math.PI) + angle);
-                                    y = centerY + radius * Math.sin(((i === 4 ? 1.18 : 1.58) * Math.PI) + angle);
-                                }
-                                context.lineTo(x, y);
-                            }
-                        }
-       else if (sides === 121) { // Clutter
-                            for (let [scale, theta] of [
-                                [0.438, 0],
-                                [1, 0.681],
-                                [0.625, 1.047],
-                                [0.438, 1.065],
-                                [-0.5, -1.1],
-                                [-0.34, -0.698],
-                                [-0.75, 0],
-                                [-0.34, 0.698],
-                                [-0.5, 1.1],
-                                [0.438, -1.065],
-                                [0.625, -1.047],
-                                [1, -0.681]
-                            ]) context.lineTo(
-                                centerX + radius * scale * Math.cos(angle + (theta - 0.0261)),
-                                centerY + radius * scale * Math.sin(angle + (theta - 0.0261))
-                            );
-                        }
-      
-  else if (sides === 111) { 
-                          for (let [scale, theta] of [
-                            [-0.1158250046, -0.51899336599999995],  
-                            [-0.1158250046, -0.551488094], 
-                            [-0.896903429, -0.571220082],
-                            [-0.766833125, -0.571220082],
-                            [-0.766833125, -0.529441146],
-                            // -53466.04400000001 -52944.1146 -39122.19410000001 -42035.17019999999 -8610.804499999998 -53524.073 23723.636799999993 -56889.903 27977.849499999997 -56889.903 65417.7289 -51551.4834 89972.455 -42035.17019999999 92282.377 -37160.960999999996 94044.8092 -37160.960999999996 95807.24139999998 -37876.77099999999 114121.98760000001 -21687.280999999995 120017.39349999999 769.0494000000035 113332.0198 23070.642999999996 97428.01539999999 35720.071800000005 95645.164 34327.4406 91390.9513 34327.4406 91593.229 39201.6498 65579.80629999998 54752.6982 27410.578599999993 58698.48659999999 -12703.577900000004 53824.27739999999 -40175.69720000001 43147.438200000004 -53060.8505 53360.066999999995 -75427.5317 53360.066999999995 -75427.5317 57770.0658 -88312.685 58060.65419999999 -114569.2238 54752.6982 -114569.2238 50574.8046 -88798.9172 50574.8046 -88798.9172 21329.549400000004 -120160.8941 21329.549400000004 -120404.0102 -22538.333399999996 -89042.03330000001 -23002.5438 -88555.80110000001 -49462.5366 -64010.168399999995 16919.2431 -78597.1344 16919.2431 -78597.1344 -15343.3797 -64496.40059999999 -15343.3797 
-                           ]) context.lineTo(
-                        centerX + radius * scale * Math.cos(angle + (theta - 0.0261)),
-                               centerY + radius * scale * Math.sin(angle + (theta - 0.0261))
-                           );
-                    }
-      
-      else if (sides > 0 && sides < 100) { // Polygon
+                 
+        } else if (sides > 0) { // Polygon
         context.lineJoin = 'round';
             for (let i = 0; i < sides; i++) {
                 let theta = (i / sides) * 2 * Math.PI;
@@ -2732,6 +2519,7 @@ const drawEntity = (() => {
         // Draw guns  
         source.guns.update();
         context.lineWidth = Math.max(config.graphical.mininumBorderChunk, ratio * config.graphical.borderChunk);
+        setColor(context, mixColors(color.grey, render.status.getColor(), render.status.getBlend()));
         if (source.guns.length === m.guns.length) {
             let positions = source.guns.getPositions();
             for (let i = 0; i < m.guns.length; i++) {
@@ -2743,7 +2531,6 @@ const drawEntity = (() => {
                     gy =
                     g.offset * Math.sin(g.direction + g.angle + rot) +
                     (g.length / 2 - position) * Math.sin(g.angle + rot);
-              setColor(context, mixColors(getColor(g.color), render.status.getColor(), render.status.getBlend()))
                 drawTrapezoid(
                     context,
                     xx + drawSize * gx,
@@ -2751,9 +2538,9 @@ const drawEntity = (() => {
                     drawSize * (g.length / 2 - ((g.aspect === 1) ? position * 2 : 0)),
                     drawSize * g.width / 2,
                     g.aspect,
-                    g.angle + rot,
-                ); // add back the previous code. g.color?
-            }  // @everyone
+                    g.angle + rot
+                );
+            }
         } else {
             throw new Error("Mismatch gun number with mockup.");
         }
@@ -2813,7 +2600,7 @@ function drawHealth(x, y, instance, ratio, alpha) {
             drawBar(x - size, x - size + 2 * size * health, yy, 3, color.lgreen);
             if (shield) {
                 ctx.globalAlpha = (0.3 + shield * 0.3) * alpha * alpha * fade;
-                drawBar(x - size, x - size + 2 * size * shield, yy, 3, color.teal);
+                drawBar(x - size, x - size + 2 * size * shield, yy, 3, color.grey);
                 ctx.globalAlpha = 1;
             }
         }
@@ -2833,7 +2620,7 @@ function drawHealth(x, y, instance, ratio, alpha) {
             );
         } else {
             instance.render.textobjs[0].draw(
-                'dankarras.io',
+                'arrascraft.io',
                 x, y - realSize - 30, 16, color.lavender, 'center'
             );
             instance.render.textobjs[1].draw(
@@ -3700,7 +3487,7 @@ const gameDraw = (() => {
             // Draw the exp bar
             drawBar(x, x + len, y + height / 2, height - 3 + config.graphical.barChunk, color.black);
             drawBar(x, x + len, y + height / 2, height - 3, color.grey);
-            drawBar(x, x + len * gui.__s.getProgress(), y + height / 2, height - 3.5, color.teal);
+            drawBar(x, x + len * gui.__s.getProgress(), y + height / 2, height - 3.5, color.gold);
             // Draw the class type
             text.class.draw(
                 'Level ' + gui.__s.getLevel() + ' ' + mockups[gui.type].name,
@@ -3712,7 +3499,7 @@ const gameDraw = (() => {
             // Draw the %-of-leader bar
             drawBar(x + len * 0.1, x + len * 0.9, y + height / 2, height - 3 + config.graphical.barChunk, color.black);
             drawBar(x + len * 0.1, x + len * 0.9, y + height / 2, height - 3, color.grey);
-            drawBar(x + len * 0.1, x + len * (0.1 + 0.8 * ((max) ? Math.min(1, gui.__s.getScore() / max) : 1)), y + height / 2, height - 3.5, color.blue);
+            drawBar(x + len * 0.1, x + len * (0.1 + 0.8 * ((max) ? Math.min(1, gui.__s.getScore() / max) : 1)), y + height / 2, height - 3.5, color.green);
             // Draw the score
             text.score.draw(
                 'Score: ' + handleLargeNumber(gui.__s.getScore()),
@@ -3783,27 +3570,27 @@ const gameDraw = (() => {
             timingGraph(GRAPHDATA, x, y - 40, len, 30, color.yellow);
             // Text
             text.debug[5].draw(
-                'Predict: ' + ((Math.round(GRAPHDATA * 10)) / 10) + 'ms',
+                'Prediction: ' + ((Math.round(GRAPHDATA * 10)) / 10) + 'ms',
                 x + len, y - 50 - 5 * 14,
                 10, color.guiwhite, 'right'
             );
             text.debug[4].draw(
-                'Rate Update: ' + metrics.updatetime + 'Hz',
+                'Update Rate: ' + metrics.updatetime + 'Hz',
                 x + len, y - 50 - 4 * 14,
                 10, color.guiwhite, 'right'
             );
             text.debug[3].draw(
-                'Lag: ' + metrics.latency + 'ms',
+                'Latency: ' + metrics.latency + 'ms',
                 x + len, y - 50 - 3 * 14,
                 10, color.guiwhite, 'right'
             );
             text.debug[2].draw(
-                'Player FPS: ' + metrics.rendertime,
+                'Client FPS: ' + metrics.rendertime,
                 x + len, y - 50 - 2 * 14,
                 10, color.guiwhite, 'right'
             );
             text.debug[1].draw(
-                'S P E E D: ' + (100 * gui.fps).toFixed(2) + '%' + ((gui.fps === 1) ? '' : ' OVERLOADED!'),
+                'Server Speed: ' + (100 * gui.fps).toFixed(2) + '%' + ((gui.fps === 1) ? '' : ' OVERLOADED!'),
                 x + len, y - 50 - 1 * 14,
                 10, (gui.fps === 1) ? color.guiwhite : color.orange, 'right'
             );
@@ -3821,7 +3608,7 @@ const gameDraw = (() => {
             let x = global.screenWidth - len - spacing;
             let y = spacing + height + 7;
             text.lbtitle.draw(
-                'Top 10 Scores:', Math.round(x + len / 2) + 0.5,
+                'Leaderboard:', Math.round(x + len / 2) + 0.5,
                 Math.round(y - 6) + 0.5,
                 height + 4, color.guiwhite, 'center'
             );
@@ -3907,7 +3694,7 @@ const gameDraw = (() => {
                 });
                 // Draw box
                 let h = 14,
-                    msg = "Lets Wing IT!",
+                    msg = "Close Upgrade Menu",
                     m = measureText(msg, h - 3) + 10;
                 let xx = xo + (xxx + len + internalSpacing - xo) / 2,
                     yy = yo + height + internalSpacing;
@@ -3953,8 +3740,8 @@ const gameDrawDead = (() => {
                 ((finalKills[0] && finalKills[1]) ? ' and ' : '') +
                 ((finalKills[1]) ? finalKills[1] + ' assists' : '') +
                 (((finalKills[0] || finalKills[1]) && finalKills[2]) ? ' and ' : '') +
-                ((finalKills[2]) ? finalKills[2] + ' bosses you killed' : '') :
-                'Peaceful boi') +
+                ((finalKills[2]) ? finalKills[2] + ' visitors defeated' : '') :
+                ' A true pacifist') +
             '.';
     };
     let getDeath = () => {
@@ -3966,7 +3753,7 @@ const gameDrawDead = (() => {
             });
             txt = txt.slice(0, -4) + '.';
         } else {
-            txt += 'Game Over';
+            txt += 'you died';
         }
         return txt;
     };
@@ -3982,18 +3769,18 @@ const gameDrawDead = (() => {
             yy = global.screenHeight / 2 - 35 + scale * position.middle.x * 0.707;
         drawEntity(xx - 190 - len / 2, yy - 10, picture, 1.5, 1, 0.5 * scale / picture.realSize, -Math.PI / 4, true);
         text.taunt.draw(
-            'Congratulations, you died', x, y - 80, 11, color.guiwhite, 'center'
+            'you are now dead, congrats', x, y - 80, 11, color.guiwhite, 'center'
         );
         text.level.draw(
-            'Tank Level = ' + gui.__s.getLevel() + ' ' + mockups[gui.type].name + '.',
+            'level = ' + gui.__s.getLevel() + ' ' + mockups[gui.type].name + '.',
             x - 170, y - 30, 24, color.guiwhite
         );
         text.score.draw(
-            'Your Score: ' + formatLargeNumber(Math.round(global.finalScore.get())),
+            'score: ' + formatLargeNumber(Math.round(global.finalScore.get())),
             x - 170, y + 25, 50, color.guiwhite
         );
         text.time.draw(
-            'Survied for: ' + timeForHumans(Math.round(global.finalLifetime.get())) + '.',
+            'Lived to ' + timeForHumans(Math.round(global.finalLifetime.get())) + '.',
             x - 170, y + 55, 16, color.guiwhite
         );
         text.kills.draw(
@@ -4003,7 +3790,7 @@ const gameDrawDead = (() => {
             getDeath(), x - 170, y + 99, 16, color.guiwhite
         );
         text.playagain.draw(
-            'Enter = Respawn, Reload = Main Menu', x, y + 125, 16, color.guiwhite, 'center'
+            'Press enter to play again', x, y + 125, 16, color.guiwhite, 'center'
         );
     };
 })();
@@ -4015,8 +3802,8 @@ const gameDrawBeforeStart = (() => {
     };
     return () => {
         clearScreen(color.white, 0.5);
-        text.connecting.draw('Verifying connection...', global.screenWidth / 2, global.screenHeight / 2, 30, color.guiwhite, 'center');
-        text.message.draw(global.message, global.screenWidth / 2, global.screenHeight / 2 + 30, 15, color.teal, 'center');
+        text.connecting.draw('Connecting...', global.screenWidth / 2, global.screenHeight / 2, 30, color.guiwhite, 'center');
+        text.message.draw(global.message, global.screenWidth / 2, global.screenHeight / 2 + 30, 15, color.lgreen, 'center');
     };
 })();
 
@@ -4027,8 +3814,8 @@ const gameDrawDisconnected = (() => {
     };
     return () => {
         clearScreen(mixColors(color.red, color.guiblack, 0.3), 0.25);
-        text.disconnected.draw('connecc rejecc', global.screenWidth / 2, global.screenHeight / 2, 30, color.guiwhite, 'center');
-        text.message.draw(global.message, global.screenWidth / 2, global.screenHeight / 2 + 30, 15, color.red, 'center');
+        text.disconnected.draw('Disconnected', global.screenWidth / 2, global.screenHeight / 2, 30, color.guiwhite, 'center');
+        text.message.draw(global.message, global.screenWidth / 2, global.screenHeight / 2 + 30, 15, color.orange, 'center');
     };
 })();
 
@@ -4038,9 +3825,9 @@ const gameDrawDisconnectedlolwut = (() => {
         message: TextObj(),
     };
     return () => {
-        clearScreen(mixColors(color.purple, color.guiblack, 0.3), 0.25);
-        text.disconnected.draw('Y u do dis?!', global.screenWidth / 2, global.screenHeight / 2, 30, color.guiwhite, 'center');
-        text.message.draw(global.message, global.screenWidth / 2, global.screenHeight / 2 + 30, 15, color.red, 'center');
+        clearScreen(mixColors(color.red, color.guiblack, 0.3), 0.25);
+        text.disconnected.draw('What were you thinking!', global.screenWidth / 2, global.screenHeight / 2, 30, color.guiwhite, 'center');
+        text.message.draw(global.message, global.screenWidth / 2, global.screenHeight / 2 + 30, 15, color.orange, 'center');
     };
 })();
 

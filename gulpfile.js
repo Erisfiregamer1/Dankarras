@@ -1,4 +1,3 @@
-
 var gulp = require("gulp");
 var babel = require("gulp-babel");
 var jshint = require("gulp-jshint");
@@ -73,8 +72,8 @@ gulp.task('rev-clean', ["compile-client", "rev-rename"], function gulpRevClean()
 gulp.task("run", ["build"], function gulpRun() {
     nodemon({
         delay: 1000,
-        script: "./server/server.js",
-        cwd: "./bin/",
+        script: "arrasio/src/server/server.js",
+        cwd: "./",
         args: ["config.json"],
         ext: "html js css"
     })

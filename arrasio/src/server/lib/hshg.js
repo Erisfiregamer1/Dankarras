@@ -31,7 +31,7 @@
             ,newObjHash;
         
         // for each object
-        for(i = 0; i < this._globalObjects.length;i++){
+        for(i = 0; i < this._globalObjects.length; i++){
             obj = this._globalObjects[i];
             meta = obj.HSHG;
             grid = meta.grid;
