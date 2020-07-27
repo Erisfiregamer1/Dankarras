@@ -49,9 +49,7 @@ module.exports = {
     KEY_CHOOSE_13: 191,
     KEY_CHOOSE_14: 76,
     KEY_LEVEL_UP: 78,
-    KEY_TP: 79,
-    KEY_FUCK_YOU: 192,
-    KEY_GODM: 77,
+    KEY_FUCK_YOU: 191,
 
     // Canvas
     screenWidth: window.innerWidth,

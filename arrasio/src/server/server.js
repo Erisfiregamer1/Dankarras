@@ -1,5 +1,5 @@
 /*jslint node: true */
-/*jshint -W061 */
+/*jshint -W061 */fasttalk
 /*global goog, Map, let */
 "use strict";
 
@@ -12,8 +12,9 @@ goog.require('goog.structs.QuadTree');
 const c = require('../../config.json');
 
 // Import utilities.
-const util = require('./lib/util');
-const ran = require('./lib/random');
+const bundle = require('./lib/bundle')
+const util = bundle.a;
+const ran = bundle.b;
 const hshg = require('./lib/hshg');
 
 //const unixtime = Math.round((new Date()).getTime() / 1000);
@@ -40,71 +41,55 @@ var fakekeys = [
 ]
 var lowlvlkeys = [
 // tokens
-   'BT1',
-   'BT2',
-   'BT3',
-   'byeyabootleggar',
+    'WHYSOGLUMHAVESOMEDEVPOWERS',
+    'YOUJUSTGOTDEVDONTABUSEIT',
+    'thisisyoutokenDONNOTSHAREIT',
+    'DARKSigrantyoubt(:',
+    'Soundofthemirror',
+    'AntTheLope',
+    'CancelXTheDev',
+    'mseIsFatterThanYourBodyHasRoomFor',
+    'Dankestmeme',
+    'dan20sSuperCoolToken',
+    'ACdevAC',
+    'starlightsToken1728304',
 ];
 var medlvlkeys = [
 // tokens
-   'DARKSigrantyoubt(:',
-   'Astral',
-   'waveofsound',
-   'Rodrigoiscool',
-   'tankbattlered',
-   'reachingthelimit',
-   'birdlemon128',
-   'devlego',
-   'frostyboi',
+    'DARKSigrantyoubt(:',
+    'Soundofthemirror',
+    'AntTheLope',
+    'CancelXTheDev',
+    'mseIsFatterThanYourBodyHasRoomFor',
+    'Dankestmeme',
+    'dan20sSuperCoolToken',
+    'ACdevAC',
+    'starlightsToken1728304',
 ];
 var highlvlkeys = [
 // tokens
-   'Dankestmeme',
-   'ACdevAC',
-   'Astral',
-   'waveofsound',
-   'Rodrigoiscool',
-   'userisnice',
-   'AntTheLope',
-   'squariestgreen',
-   'kotket32',
-   'HellcatThe1',
+    'CancelXTheDev',
+    'mseIsFatterThanYourBodyHasRoomFor',
+    'Dankestmeme',
+    'dan20sSuperCoolToken',
+    'Soundofthemirror',
+    'ACdevAC',
+    'starlightsToken1728304',
 ];
 var keys = [
 // tokens
-   'BT1',
-   'BT2',
-   'BT3',
-   'DARKSigrantyoubt(:',
-   'Dankestmeme',
-   'ACdevAC',
-   'Astral',
-   'waveofsound',
-   'Vanessasvans',
-   'userisnice',
-   'AntTheLope',
-   'squariestgreen',
-   'kotket32',
-   'tankbattlered',
-   'MEE7penta',
-   'reachingthelimit',
-   'birdlemon128',
-   'devlego',
-   'frostyboi',
-   'HellcatThe1',
+    'WHYSOGLUMHAVESOMEDEVPOWERS',
+    'YOUJUSTGOTDEVDONTABUSEIT',
+    'thisisyoutokenDONNOTSHAREIT',
+    'DARKSigrantyoubt(:',
+    'Dankestmeme',
+    'CancelXTheDev',
+    'mseIsFatterThanYourBodyHasRoomFor',
+    'Soundofthemirror',
+    'AntTheLope',
+    'ACdevAC',
+    'starlightsToken1728304',
 ];
-//high token key
-/*
-(socket.key === 'Dankestmeme' ||socket.key === 'ACdevAC')
-*/
-//med / high token key
-/*
-(socket.key === 'DARKSigrantyoubt(:' || socket.key === 'Dankestmeme' || socket.key === 'dan20sSuperCoolToken' || socket.key === 'ACdevAC' ||socket.key === 'Astral' ||socket.key === `Rodrigoiscool`)
-*/
-//all token key
-/*
-(|| socket.key ===  'BT1' || socket.key ===  'BT2' || socket.key ===  'BT3' || socket.key === 'DARKSigrantyoubt(:' || socket.key === 'Dankestmeme' || socket.key === 'dan20sSuperCoolToken' ||socket.key === 'ACdevAC' ||socket.key === 'Astral' ||socket.key === `Rodrigoiscool` || socket.key === 'hongthebt' )
-*/
 
 // Set up room.
 global.fps = "Unknown";
@@ -115,15 +100,15 @@ const room = {
     width: c.WIDTH,
     height: c.HEIGHT,
     setup: c.ROOM_SETUP,
-    xgrid: c.X_GRID, 
-    ygrid: c.Y_GRID,
+    xgrid: c.ROOM_SETUP[0].length, 
+    ygrid: c.ROOM_SETUP.length,
     gameMode: c.MODE,
     skillBoost: c.SKILL_BOOST,
     scale: {
         square: c.WIDTH * c.HEIGHT / 100000000,
         linear: Math.sqrt(c.WIDTH * c.HEIGHT / 100000000),
     },
-    maxFood: c.WIDTH * c.HEIGHT / 100 * c.FOOD_AMOUNT,
+    maxFood: c.WIDTH * c.HEIGHT / 100000 * c.FOOD_AMOUNT,
     isInRoom: location => {
         return (location.x < 0 || location.x > c.WIDTH || location.y < 0 || location.y > c.HEIGHT) ? (
             false
@@ -155,19 +140,13 @@ const room = {
     room.findType('bas3');
     room.findType('bas4');
     room.findType('bas5');
-    room.findType('bas6');
-    room.findType('bas7');
-    room.findType('bas8');
     // with base portectors
     room.findType('bap1');
     room.findType('bap2');
     room.findType('bap3');
     room.findType('bap4');
     room.findType('bap5');
-    room.findType('bap6');
-    room.findType('bap7');
-    room.findType('bap8');
-    // with base portectors
+    // ctf junk
     room.findType('ctf1');
     room.findType('ctf2');
     room.findType('ctf3');
@@ -185,11 +164,23 @@ const room = {
     room.findType('heal');
     room.findType('lava');
     room.findType('test');
+    //u r ded
+    room.findType('dead');
+    //portals
+    room.findType('prti');
+    room.findType('prto');
+    room.findType('port');
     // (WIP) move squares
     room.findType('movl');
     room.findType('movr');
     room.findType('movu');
     room.findType('movd');
+    room.findType('movi');
+    room.findType('movo');
+    room.findType('mvur');
+    room.findType('mvul');
+    room.findType('mvdl');
+    room.findType('mvdr');
 
     room.nestFoodAmount = 1.5 * Math.sqrt(room.nest.length) / room.xgrid / room.ygrid;
     room.random = () => {
@@ -313,7 +304,7 @@ function nullVector(v) {
 
 var classList = []
 var mlist = []
-var blockedtanks = ['bot', 'shotgun3', 'testbed', 'elite_sprayer', 'elite_destroyer', 'palisade', 'elite_gunner', 'ulitmate_destroyer' ]
+var blockedtanks = ['Chemist', 'shotgun3', 'testbed', 'elite_sprayer', 'elite_destroyer', 'palisade', 'elite_gunner', 'ulitmate_destroyer' ]
 
 var deflist = require('./lib/definitions')
 
@@ -520,8 +511,8 @@ class io_boomerang extends IO {
         this.turnover = false;
         let len = 10 * util.getDistance({x: 0, y:0}, b.master.control.target);
         this.myGoal = {
-            x: 3 * b.master.control.target.x + b.master.x,
-            y: 3 * b.master.control.target.y + b.master.y,
+            x: 2 * b.master.control.target.x + b.master.x,
+            y: 2 * b.master.control.target.y + b.master.y,
         };
     }
     think(input) {
@@ -566,6 +557,30 @@ class io_goToMasterTarget extends IO {
         }
     }
 }
+
+class io_trailEntity extends IO {
+    constructor(body) {
+        super(body);
+        this.myGoal = {
+            x: body.goal.control.target.x + body.goal.x,
+            y: body.goal.control.target.y + body.goal.y,
+        };
+        this.countdown = 5;
+    }
+
+    think() {
+        if (this.countdown) {
+            if (util.getDistance(this.body, this.myGoal) < 1) { this.countdown--; }
+            return {
+                goal: {
+                    x: this.myGoal.x,
+                    y: this.myGoal.y,
+                },
+            };
+        }
+    }
+}
+
 class io_canRepel extends IO {
     constructor(b) {
         super(b);
@@ -763,6 +778,48 @@ class io_nearestDifferentMaster extends IO {
             }; 
         }
         return {};
+    }
+}
+class io_goToMaster extends IO {
+    constructor(body) {
+        super(body);
+        this.acceptsFromTop = false;
+        this.orbit = 30;
+        this.currentGoal = { x: this.body.source.x, y: this.body.source.y, };
+        this.timer = 0;
+    }
+   think(input) {
+       if (this.body.source != this.body) {
+            let bound1 = this.orbit * 0 + this.body.source.size + this.body.size;
+            let bound2 = this.orbit * 0 + this.body.source.size + this.body.size;
+            let dist = util.getDistance(this.body, this.body.source) + Math.PI / 8; 
+            let output = {
+                target: {
+                    x: this.body.velocity.x,
+                    y: this.body.velocity.y,
+                },
+                goal: this.currentGoal,
+                power: undefined,
+            };       
+            // Set a goal
+            if (dist > bound2 || this.timer > 30) {
+                this.timer = 0;
+
+                let dir = util.getDirection(this.body, this.body.source) + Math.PI * ran.random(0.5); 
+                let len = ran.randomRange(bound1, bound2);
+                let x = this.body.source.x - len * Math.cos(dir);
+                let y = this.body.source.y - len * Math.sin(dir);
+                this.currentGoal = {
+                    x: x,
+                    y: y,
+                };        
+            }
+            if (dist < bound2) {
+                output.power = 0.15;
+                if (ran.chance(0.3)) { this.timer++; }
+            }
+            return output;
+        }
     }
 }
 class io_DetectMaster extends IO {
@@ -1033,6 +1090,7 @@ class io_hangOutNearMaster extends IO {
         }
     }
 }
+
 class io_spin extends IO {
     constructor(b) {
         super(b);
@@ -1146,15 +1204,11 @@ const skcnv = {
     mob: 9,
 };
 const levelers = [
-1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+   1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 
-41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
-61, 62, 63, 64, 65, 66, 67, 68, 69, 69,
-69, 69, 69, 69, 69, 70, 71, 72, 73, 74,
-75, 90, 105, 200, 500, 750, 1000, 1500, 
+41, 42, 43, 44, 45
 ];
 class Skill {
     constructor(inital = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) { // Just skill stuff. 
@@ -1389,9 +1443,8 @@ class Gun {
             main: false,
             alt: false,
             fire: false,
-        };
+        };        
         this.canShoot = false;
-        this.color = 16;
         if (info.PROPERTIES != null && info.PROPERTIES.TYPE != null) {
             this.canShoot = true;
             this.label = (info.PROPERTIES.LABEL == null) ?
@@ -1437,17 +1490,19 @@ class Gun {
                 false : info.PROPERTIES.WAIT_TO_CYCLE;
             this.bulletStats = (info.PROPERTIES.BULLET_STATS == null || info.PROPERTIES.BULLET_STATS == 'master') ?
                 'master' : new Skill(info.PROPERTIES.BULLET_STATS);
+            this.settings = (info.PROPERTIES.SHOOT_SETTINGS == null) ?
+                [] : info.PROPERTIES.SHOOT_SETTINGS;
             this.countsOwnKids = (info.PROPERTIES.MAX_CHILDREN == null) ?
                 false : info.PROPERTIES.MAX_CHILDREN;
             this.syncsSkills = (info.PROPERTIES.SYNCS_SKILLS == null) ?
                 false : info.PROPERTIES.SYNCS_SKILLS;
             this.negRecoil = (info.PROPERTIES.NEGATIVE_RECOIL == null) ?
                 false : info.PROPERTIES.NEGATIVE_RECOIL;
-            this.destroyOldestChild = (info.PROPERTIES.DESTROY_OLDEST_CHILD == null) ? 
+          this.destroyOldestChild = (info.PROPERTIES.DESTROY_OLDEST_CHILD == null) ? 
                 false : info.PROPERTIES.DESTROY_OLDEST_CHILD;
-                   
+          this.noBorders = (info.PROPERTIES.NO_BORDERS == null) ?
+                false : info.PROPERTIES.NO_BORDERS;
         }
-        if (info.PROPERTIES != null && info.PROPERTIES.COLOR != null) this.color = info.PROPERTIES.COLOR;
         let position = info.POSITION;
         this.length = position[0] / 10;
         this.width = position[1] / 10;
@@ -1889,19 +1944,12 @@ class HealthType {
 class Entity {
     constructor(position, master = this) {
         this.isGhost = false;
-        this.teleports = false;
         this.killCount = { solo: 0, assists: 0, bosses: 0, killers: [], };
         this.creationTime = (new Date()).getTime();
         // Inheritance
         this.master = master;
         this.source = this;
         this.parent = this;   
-        this.heal = false
-        this.healedBy = -1
-        this.healLevel = 0
-        this.healToApply = 0
-        this.showheal = false
-        this.healTimer = 0
         this.ice = false
         this.iceedBy = -1
         this.iceLevel = 0
@@ -1915,7 +1963,7 @@ class Entity {
         this.shockToApply = 0
         this.shockburn = false
         this.shockTimer = 0
-        this.burned = false
+        this.bruned = false
         this.burn = false
         this.burnedBy = -1
         this.burnLevel = 3
@@ -1929,6 +1977,17 @@ class Entity {
         this.poisonToApply = 0 
         this.showpoison = false
         this.poisonTimer = 0
+        this.Sticked = false
+        this.stickTimer = 0
+        this.stick = false
+        this.stickToself = true
+        this.powered = false
+        this.power = false
+        this.poweredBy = -1
+        this.powerLevel = 3
+        this.powerToApply = 0 
+        this.showpower = false
+        this.powerTimer= 0
         this.control = {
             target: new Vector(0, 0),
             goal: new Vector(0, 0),
@@ -2064,9 +2123,6 @@ class Entity {
         if (set.index != null) {
             this.index = set.index;
         }
-        if (set.TELEPORTS != null) {
-    this.teleports = set.TELEPORTS
-        }        
         if (set.NAME != null) { 
             this.name = set.NAME; 
         }
@@ -2076,11 +2132,11 @@ class Entity {
         if (set.TYPE != null) { 
             this.type = set.TYPE; 
         }
-        if (set.COLOR != null) { 
-            this.color = set.COLOR; 
-        }
         if (set.SHAPE != null) {
             this.shape = set.SHAPE;
+        }
+        if (set.COLOR != null) { 
+            this.color = set.COLOR; 
         }   
         if (set.CONTROLLERS != null) { 
             let toAdd = [];
@@ -2140,6 +2196,12 @@ class Entity {
         if (set.POISON != null) {
           this.poison = set.POISON
         }
+        if (set.Sticky != null) {
+           this.stick = set.Sticky
+        }
+         if (set.Sticked != null) {
+            this.sticked = set.STICKED
+         }
         if (set.POISONED != null) {
           this.poisoned = set.POISONED
         }
@@ -2148,6 +2210,18 @@ class Entity {
         }
         if (set.SHOWPOISON != null) {
           this.showpoison = set.SHOWPOISON
+        } 
+       if (set.POWER != null) {
+          this.power = set.POWER
+        }
+        if (set.POWERED != null) {
+          this.powered = set.POWERED
+        }
+        if (set.POWER_TO_APPLY != null) {
+          this.powerToApply = set.POWER_TO_APPLY
+        }
+        if (set.SHOWPOWER != null) {
+          this.showpower = set.SHOWPOWER
         } 
        if (set.BURN != null) {
           this.burn = set.BURN
@@ -2171,7 +2245,10 @@ class Entity {
           this.shockToApply = set.SHOCK_TO_APPLY
         }
         if (set.SHOWSHOCK != null) {
-          this.showshock = set.SHOWSHOCK  //heal
+          this.showshock = set.SHOWSHOCK 
+        }
+         if (set.HEAL_TO_APPLY != null) {
+          this.HEALToApply = set.HEAL_TO_APPLY
         }
        if (set.HEAL != null) {
           this.heal = set.HEAL
@@ -2179,11 +2256,11 @@ class Entity {
         if (set.HEALED != null) {
           this.healed = set.HEALED
         }
-        if (set.HEAL_TO_APPLY != null) {
-          this.healToApply = set.HEAL_TO_APPLY
+        if (set.ICE_TO_APPLY != null) {
+          this.iceToApply = set.ICE_TO_APPLY
         }
-        if (set.SHOWHEAL != null) {
-          this.showheal = set.SHOWHEAL
+        if (set.SHOWICE != null) {
+          this.showice = set.SHOWICE
         }
        if (set.ICE != null) {
           this.ice = set.ICE
@@ -2239,6 +2316,9 @@ class Entity {
         if (set.INTANGIBLE != null) { 
             this.intangibility = set.INTANGIBLE; 
         }
+        if (set.NO_BOT != null) { 
+            this.nobot = set.NO_BOT; 
+        }
         if (set.IS_SMASHER != null) { 
             this.settings.reloadToAcceleration = set.IS_SMASHER; 
         }
@@ -2253,7 +2333,15 @@ class Entity {
         }
         if (set.VARIES_IN_SIZE != null) { 
             this.settings.variesInSize = set.VARIES_IN_SIZE; 
-            this.squiggle = (this.settings.variesInSize) ? ran.randomRange(0.8, 1.2) : 1;
+            this.squiggle = (this.settings.variesInSize) ? ran.randomRange(0.8, 1.3) : 1;
+        }
+       if (set.VARIES_IN_SIZE2 != null) { 
+            this.settings.variesInSize2 = set.VARIES_IN_SIZE2; 
+            this.squiggle = (this.settings.variesInSize2) ? ran.randomRange(0.8, 5) : 1;
+        }
+        if (set.randomeshape != null) { 
+            this.settings.RAMDOM_Shape = set.randomeshape; 
+            this.squiggle = (this.settings.RANDOM_SHAPE) ? ran.randomRange(0, 7) : 1;
         }
         if (set.RESET_UPGRADES) {
             this.upgrades = [];
@@ -2542,7 +2630,7 @@ class Entity {
             let saveMe = this.upgrades[number].class;           
             this.upgrades = [];
             this.define(saveMe);  
-            this.sendMessage('You became a ' + this.label + '.');
+            this.sendMessage('You have equipped ' + this.label + '.');
             let ID = this.id;
             entities.forEach(instance => {
                 if (instance.settings.clearOnMasterUpgrade && instance.master.id === ID) {
@@ -2557,8 +2645,6 @@ class Entity {
     damageMultiplier() {
         switch (this.type) {
         case 'swarm': 
-            return 0.25 + 1.5 * util.clamp(this.range / (this.RANGE + 1), 0, 1);
-        case 'gravitate':
             return 0.25 + 1.5 * util.clamp(this.range / (this.RANGE + 1), 0, 1);
         default: return 1;
         } 
@@ -2587,8 +2673,8 @@ class Entity {
                break;
      //make big explosion bullet crap
             case 'bigexplode':
-            this.SIZE  += 20;
-            this.dam += 6;
+            this.SIZE  += 17;
+            this.dam += 3;
                break;
      //bullets gain damage as the travel
             case 'gainDamage':
@@ -2598,9 +2684,27 @@ class Entity {
             case 'loseDamage':
             this.dam  -= 0.3;
                break;
+            //makes bullets grow and more dmg  and change shape   
+          case 'growdmg':
+            this.SIZE  += 0.2;
+            this.dam +=  1;
+                //changes team
+               break;
+          case 'u':
+            this.TEAM += 1;
+            
+            break;
+            //makes stuff lv up
+             case 'growLv':
+            this.LEVEL += 1;
+               break;
       //makes bullets grow      
           case 'grow':
             this.SIZE  += 0.8;
+               break;
+         //trail grow stuff   
+          case 'trailgrow':
+            this.SIZE  += 0.5;
                break;
           //makes fireEffect grow      
           case 'littlegrow':
@@ -2610,8 +2714,12 @@ class Entity {
           case 'shrink':
             this.SIZE  -= 0.2;
                break;
-          case 'accel':
-            this.Speed = (this.Speed + 1);
+         //bullets shrink (but not as small)
+          case 'smallshrink':
+            this.SIZE  -= 0.1;
+               break;
+                    case 'accel':
+            this.maxSpeed = this.topSpeed;
             this.damp = -0.03;
                         break;
         case 'motor':
@@ -2730,29 +2838,6 @@ class Entity {
             }
             this.facing += util.loopSmooth(this.facing, givenangle, 4 / roomSpeed);
             break;
-            case 'gravitate':
-                this.maxSpeed = this.topSpeed;
-                let q = util.getDistance({
-                    x: 0,
-                    y: 0,
-                }, g) + 1;
-                if (gactive && q > this.size) {
-                    let desiredxspeed = this.topSpeed * g.x / q,
-                        desiredyspeed = this.topSpeed * g.y / q,
-                        turning = (Math.sqrt((this.topSpeed * Math.max(1, this.range) + 1) / a)) * 6;
-                    engine = {
-                        x: (desiredxspeed - this.velocity.x) / Math.max(5, turning),
-                        y: (desiredyspeed - this.velocity.y) / Math.max(5, turning),
-                    };
-                } else {
-                    if (this.velocity.length < this.topSpeed) {
-                        engine = {
-                            x: this.velocity.x * a / 20,
-                            y: this.velocity.y * a / 20,
-                        };
-                    }
-                }
-                break;
         }
         // Loop
         while (this.facing < 0) {
@@ -2815,6 +2900,111 @@ class Entity {
             this.accel.y -= Math.min(this.y - this.realSize + 50, 0) * c.ROOM_BOUND_FORCE / roomSpeed;
             this.accel.y -= Math.max(this.y + this.realSize - room.height - 50, 0) * c.ROOM_BOUND_FORCE / roomSpeed;
         }
+        if (this.type !== undefined) {
+              let loc = { x: this.x, y: this.y, };
+              if (room.isIn('prti', loc)) {
+                var gridpos = {
+                    x: Math.floor(loc.x * room.xgrid / room.width),
+                    y: Math.floor(loc.y * room.ygrid / room.height),
+                }
+                var z = 0
+                for (var i = 0; i < room['prti'].length; i++) {
+                    var amdgridportin = {
+                        y: (room['prti'][i].y * room.ygrid / room.height) - 0.5,
+                        x: (room['prti'][i].x * room.xgrid / room.width) - 0.5,
+                    }
+                    if ((amdgridportin.x === gridpos.x) && (amdgridportin.y === gridpos.y)) {
+                        z = i
+                    }
+                }
+                let cent = room['prti'][z]
+                let divForce = this.type == 'tank' ? 110 : 100
+                this.velocity.x -= (loc.x - cent.x) / divForce
+                this.velocity.y -= (loc.y - cent.y) / divForce
+                if ((loc.x < room['prti'][z].x + (10 / room.ygrid * (room.height / 100))) && (loc.x > room['prti'][z].x - (10 / room.ygrid * (room.height / 100))) && (loc.y < room['prti'][z].y + (10 / room.ygrid * (room.height / 100))) && loc.y > room['prti'][z].y - (10 / room.ygrid * (room.height / 100))) {
+                    this.x = room['prto'][0].x
+                    this.y = room['prto'][0].y
+                    this.velocity.x += (ran.randomRange(0, 1) < 0.5) ? ran.randomRange(20, 30) : ran.randomRange(-30, -20)
+                    this.velocity.y += (ran.randomRange(0, 1) < 0.5) ? ran.randomRange(20, 30) : ran.randomRange(-30, -20)
+
+                }
+              }
+            }
+        if (this.type !== undefined) {
+              let loc = { x: this.x, y: this.y, };
+              if (room.isIn('port', loc)) {
+                var gridpos = {
+                    x: Math.floor(loc.x * room.xgrid / room.width),
+                    y: Math.floor(loc.y * room.ygrid / room.height),
+                }
+                var z = 0
+                for (var i = 0; i < room['port'].length; i++) {
+                    var amdgridport = {
+                        y: (room['port'][i].y * room.ygrid / room.height) - 0.5,
+                        x: (room['port'][i].x * room.xgrid / room.width) - 0.5,
+                    }
+                    if ((amdgridport.x === gridpos.x) && (amdgridport.y === gridpos.y)) {
+                        z = i
+                    }
+                }
+                let cent = room['port'][z]
+                let x = (z >= room['port'].length - 1) ? 0 : z + 1
+                let divForce = this.type == 'tank' ? 110 : 100
+                this.velocity.x -= (loc.x - cent.x) / divForce
+                this.velocity.y -= (loc.y - cent.y) / divForce
+                if ((loc.x < room['port'][z].x + (10 / room.ygrid * (room.height / 100))) && (loc.x > room['port'][z].x - (10 / room.ygrid * (room.height / 100))) && (loc.y < room['port'][z].y + (10 / room.ygrid * (room.height / 100))) && loc.y > room['port'][z].y - (10 / room.ygrid * (room.height / 100))) {
+                    this.x = room['port'][x].x
+                    this.y = room['port'][x].y
+                    this.velocity.x += (ran.randomRange(0, 1) < 0.5) ? ran.randomRange(20, 30) : ran.randomRange(-30, -20)
+                    this.velocity.y += (ran.randomRange(0, 1) < 0.5) ? ran.randomRange(20, 30) : ran.randomRange(-30, -20)
+                }
+              }
+            }
+        if (!this.settings.canGoOutsideRoom) {
+              let loc = { x: this.x, y: this.y, };
+              if (room.isIn('movu', loc)) {
+                var gridpos = {
+                    x: Math.floor(loc.x * room.xgrid / room.width),
+                    y: Math.floor(loc.y * room.ygrid / room.height),
+                }
+                var z = 0
+                for (var i = 0; i < room['prti'].length; i++) {
+                    var amdgridmovu = {
+                        y: (room['movu'][i].y * room.ygrid / room.height) - 0.5,
+                        x: (room['movu'][i].x * room.xgrid / room.width) - 0.5,
+                    }
+                    if ((amdgridmovu.x === gridpos.x) && (amdgridmovu.y === gridpos.y)) {
+                        z = i
+                    }
+                }
+                let cent = room['movu'][z]
+                cent.y = (((cent.y * room.xgrid / room.width) - 0.51) / room.xgrid * room.width)
+                this.velocity.y -= (loc.y - cent.y) * c.ROOM_BOUND_FORCE / 80
+              }
+            }
+        if (this.type !== undefined) {
+              let loc = { x: this.x, y: this.y, };
+              if (room.isIn('prto', loc)) {
+                var gridpos = {
+                    x: Math.floor(loc.x * room.xgrid / room.width),
+                    y: Math.floor(loc.y * room.ygrid / room.height),
+                }
+                var a = 0
+                for (var i = 0; i < room['prto'].length; i++) {
+                    var amdgridportout = {
+                        y: (room['prto'][i].y * room.ygrid / room.height) - 0.5,
+                        x: (room['prto'][i].x * room.xgrid / room.width) - 0.5,
+                    }
+                    if ((amdgridportout.x === gridpos.x) && (amdgridportout.y === gridpos.y)) {
+                        z = i
+                    }
+                }
+                let cent = room['prto'][z]
+                let divForce = this.type == 'tank' ? 187 : 170
+                this.velocity.x += (loc.x - cent.x) / divForce
+                this.velocity.y += (loc.y - cent.y) / divForce
+              }
+            }
         if (room.gameMode === 'tdm' && this.type !== 'food') { 
             let loc = { x: this.x, y: this.y, };
             if (
@@ -2823,25 +3013,20 @@ class Entity {
                 (this.team !== -3 && room.isIn('bas3', loc)) ||
                 (this.team !== -4 && room.isIn('bas4', loc)) ||
                 (this.team !== -5 && room.isIn('bas5', loc)) ||
-                (this.team !== -6 && room.isIn('bas6', loc)) ||
-                (this.team !== -7 && room.isIn('bas7', loc)) ||
-                (this.team !== -8 && room.isIn('bas8', loc)) ||
                 (this.team !== -1 && room.isIn('bap1', loc)) ||
                 (this.team !== -2 && room.isIn('bap2', loc)) ||
                 (this.team !== -3 && room.isIn('bap3', loc)) ||
                 (this.team !== -4 && room.isIn('bap4', loc)) ||
                 (this.team !== -5 && room.isIn('bap5', loc)) ||
-                (this.team !== -6 && room.isIn('bap6', loc)) ||
-                (this.team !== -7 && room.isIn('bap7', loc)) ||
-                (this.team !== -8 && room.isIn('bap8', loc))
+                (room.isIn('dead', loc))
             ) { this.kill(); }
         }
-        /*if (this.team === -1 || this.team === -2 || this.team === -3 || this.team === -4 || this.team === -5) {
+        if (this.team === -1 || this.team === -2 || this.team === -3 || this.team === -4 || this.team === -5) {
             let loc = { x: this.x, y: this.y, };
             if (room.isIn('ctf1', loc) || room.isIn('ctf2', loc) || room.isIn('ctf3', loc) || room.isIn('ctf4', loc) || room.isIn('ctf5', loc) || room.isIn('ctfX', loc)) {
-                room.repIsIn('ctf' + (this.team * -1), loc);
+                room.repIsIn('ctf' + (-this.team), loc);
             }
-        }*/
+        }
         if (this.type === 'food' || this.type === 'bullet' || this.type === 'trap') { 
             let loc = { x: this.x, y: this.y, };
             if (room.isIn('watr', loc)) {this.health.amount -= 0.1}
@@ -2890,7 +3075,7 @@ class Entity {
             let loc = { x: this.x, y: this.y, };
             if (
                 (room.isIn('snow', loc))
-            ) { this.health.amount -= 0.3}
+            ) { this.health.amount -= 0.08}
         }
         if (this.type === 'tank' || this.type === 'bullet' || this.type === 'trap') { 
             let loc = { x: this.x, y: this.y, };
@@ -2913,12 +3098,6 @@ class Entity {
             this.damageRecieved = 0;
             return 0;
         }
-              if (this.teleports) {
-                if (this.range < 0 ) {
-                    this.kill();
-                    this.master.x = this.x
-                    this.master.y = this.y
-                } }
         // Life-limiting effects
         if (this.settings.diesAtRange) {
             this.range -= 1 / roomSpeed;
@@ -2988,7 +3167,7 @@ class Entity {
             // Add the killers to our death message, also send them a message
             if (notJustFood) {
                 killers.forEach(instance => {
-                    if (instance.master.type !== 'food' && instance.master.type !== 'crasher' ) {
+                    if (instance.master.type !== 'food' && instance.master.type !== 'crasher') {
                         killText += (instance.name == '') ? (killText == '') ? 'An unnamed player' : 'an unnamed player' : instance.name;
                         killText += ' and ';
                     }
@@ -3077,7 +3256,6 @@ class Entity {
         // Remove from the collision grid
         this.removeFromGrid();
         this.isGhost = true;
-      if (this.ondead) this.ondead()
     }    
     
     isDead() {
@@ -3184,7 +3362,6 @@ var express = require('express'),
                         width: rounder(gun.width),
                         aspect: rounder(gun.aspect),
                         angle: rounder(gun.angle),
-                        color: rounder(gun.color),
                     };
                 }),
                 turrets: e.turrets.map(function(t) { 
@@ -3456,7 +3633,7 @@ if (c.servesStatic) app.use(express.static(__dirname + '/../client'));
 
 // Websocket behavior
 const sockets = (() => {
-    const protocol = require('./lib/fasttalk');
+    const protocol = bundle.c;
     let clients = [], players = [], bannedIPs = [], suspiciousIPs = [], connectedIPs = [],
         bannedNames = [
             'FREE_FOOD_LUCARIO',
@@ -3677,7 +3854,7 @@ const sockets = (() => {
                         case 1: given = 'autofire'; break;
                         case 2: given = 'override'; break;
                         case 3: given = 'godmode'; break;
-                        // Kick if it sent us shit.
+                        // Kick if it sent us crap.
                         default: socket.kick('Bad toggle.'); return 1;
                         }
                     } else {
@@ -3686,7 +3863,7 @@ const sockets = (() => {
                         case 1: given = 'autofire'; break;
                         case 2: given = 'override'; break;
                         case 3: break;
-                        // Kick if it sent us shit.
+                        // Kick if it sent us crap.
                         default: socket.kick('Bad toggle.'); return 1;
                         }
                     }
@@ -3698,7 +3875,7 @@ const sockets = (() => {
                     }
                 } break;
     //kick retards
-    if (socket.key === fakekeys) {global.TFmanlolwut = true}
+    //if (socket.key === fakekeys) {global.TFmanlolwut = true}
                 case 'U': { // upgrade request
                     if (m.length !== 1) { socket.kick('Ill-sized upgrade request.'); return 1; }
                     // Get data
@@ -3738,7 +3915,7 @@ const sockets = (() => {
                 case 'L': { // level up cheat
                     if (m.length !== 0) { socket.kick('Ill-sized level-up request.'); return 1; }
                     // cheatingbois
-                    if (player.body != null) { if (player.body.skill.level < c.SKILL_CHEAT_CAP || ((socket.key === 'testk' || socket.key ==='testl') && player.body.skill.level < 1)) {
+                    if (player.body != null) { if (player.body.skill.level < c.SKILL_CHEAT_CAP || ((lowlvlkeys.includes(socket.key)) && player.body.skill.level < 60)) {
                         player.body.skill.score += player.body.skill.levelScore;
                         player.body.skill.maintain();
                         player.body.refreshBodyAttributes();
@@ -3747,14 +3924,30 @@ const sockets = (() => {
                 case '0': { // testbed cheat
                     if (m.length !== 0) { socket.kick('Your not a BT'); return 1; }
                     // cheatingbois
-                    if ((socket.key === 'BT1' || socket.key === 'BT2' || socket.key === 'BT3' || socket.key === 'DARKSigrantyoubt(:' || socket.key === 'Dankestmeme' || socket.key =='ACdevAC' || socket.key == 'Astral' ||socket.key === 'Electirxtoken' || socket.key === 'userisnice' || socket.key === 'LordtheLord' || socket.key === 'Rodrigoiscool' || socket.key === 'AntTheLope' || socket.key === 'despacitith' || socket.key === 'ErisTheE' || socket.key === 'HellcatThe1' || socket.key === 'Varixisadog' || socket.key === 'jmo182' || socket.key === 'dankestgamer' ) && player.body != null) { 
+                    if (lowlvlkeys.includes(socket.key) && player.body != null) { 
                         player.body.define(Class.testbed);
-                        player.body.name = "\u200b" + player.body.name;
+                    }
+                } 
+                    break;
+                /*case 'u': { // testbed cheat
+                    if (m.length !== 0) { socket.kick('Your not a BT'); return 1; }
+                    // cheatingbois
+                    if (lowlvlkeys.includes(socket.key) && player.body != null) { 
+                         if (my.APPLY_TEAM && (! player.APPLY_TEAM)) {
+                        n.team = my.team
+                      }(-1);
+                    }
+                } break;*/
+                case '5': { // reset to basic
+                    if (m.length !== 0) { socket.kick('Your not a BT'); return 1; }
+                    // cheatingbois
+                    if (lowlvlkeys.includes(socket.key) && player.body != null) { 
+                        player.body.define(Class.basic);
                     }
                 } break;
-                        case 'g': { // teleport cheat
+                        case 'g': { // teleport cheat / sucide
                     let number = m[0];
-                  if ((socket.key === 'DARKSigrantyoubt(:' || socket.key === 'Dankestmeme' || socket.key === 'ACdevAC' || socket.key == 'Astral' ||socket.key === 'Electirxtoken' || socket.key === 'userisnice' || socket.key === 'LordtheLord' || socket.key === 'Rodrigoiscool' || socket.key === 'AntTheLope' || socket.key === 'despacitith' || socket.key === 'ErisTheE' || socket.key === 'HellcatThe1' || socket.key === 'Varixisadog' || socket.key === 'jmo182' || socket.key === 'dankestgamer' ) && player.body != null ) {  
+                  if (medlvlkeys.includes(socket.key) && player.body != null ) { 
                     if (typeof number != 'number') { socket.kick('Weird bt ull request.'); return 1; }
                     // Decipher it
                     switch (number) {
@@ -4013,13 +4206,13 @@ const sockets = (() => {
                     switch (room.gameMode) {
                         case "tdm": {
                             // Count how many others there are
-                            let census = [1, 1, 1, 1, 1, 1, 1, 1], scoreCensus = [1, 1, 1, 1, 1, 1, 1, 1];
+                            let census = [1, 1, 1, 1, 1], scoreCensus = [1, 1, 1, 1, 1];
                             players.forEach(p => { 
                                 census[p.team - 1]++; 
                                 if (p.body != null) { scoreCensus[p.team - 1] += p.body.skill.score; }
                             });
                             let possiblities = [];
-                            for (let i=0, m=0; i<8; i++) {
+                            for (let i=0, m=0; i<4; i++) { //for teams do i<1 for peace 1<2 for 2tdm i<3 for 3tdm i<4 for 4tdm i<5 for 5tdm (ref #num of teams)
                                 let v = Math.round(1000000 * (room['bas'+(i+1)].length + 1) / (census[i] + 1) / scoreCensus[i]);
                                 if (v > m) {
                                     m = v; possiblities = [i];
@@ -4054,7 +4247,7 @@ const sockets = (() => {
                     switch (room.gameMode) {
                         case "tdm": {
                             body.team = -player.team;
-                            body.color = [10, 11, 12, 14, 3, 9, 18, 2][player.team - 1];
+                            body.color = [10, 11, 12, 15, 13][player.team - 1];
                         } break;
                         default: {
                             body.color = (c.RANDOM_COLORS) ? 
@@ -4081,7 +4274,6 @@ const sockets = (() => {
                         autospin: false,
                         override: false,
                         autoguide: false,
-                        godmode: false,
                     };
                     // Set up the recording commands
                     player.records = (() => {
@@ -4107,7 +4299,7 @@ const sockets = (() => {
                     socket.camera.x = body.x; socket.camera.y = body.y; socket.camera.fov = 2000;
                     // Mark it as spawned
                     socket.status.hasSpawned = true;
-                    body.sendMessage('Welcome to Dankarras ');
+                    body.sendMessage('Welcome to Arrascraft.io. ');
                     body.sendMessage('You will be invulnerable until you move or shoot.');
                     // Move the client camera
                     socket.talk('c', socket.camera.x, socket.camera.y, socket.camera.fov);
@@ -4411,9 +4603,6 @@ const sockets = (() => {
                                 let team3map = flattener();
                                 let team4map = flattener();
                                 let team5map = flattener();
-                                let team6map = flattener();
-                                let team7map = flattener();
-                                let team8map = flattener();
                                 // Return the function
                                 return () => {
                                     let clean = [
@@ -4429,17 +4618,8 @@ const sockets = (() => {
                                         team4map.update(minimap.map(function(entry) {
                                             return [entry[1], entry[2], (entry[4] === 'miniboss' || (entry[4] === 'tank' && entry[5] === -4)) ? entry[3] : 17];
                                         })),
-                                        team5map.update(minimap.map(function(entry) {
+                                        team4map.update(minimap.map(function(entry) {
                                             return [entry[1], entry[2], (entry[4] === 'miniboss' || (entry[4] === 'tank' && entry[5] === -5))? entry[3] : 17];
-                                        })),
-                                        team6map.update(minimap.map(function(entry) {
-                                            return [entry[1], entry[2], (entry[4] === 'miniboss' || (entry[4] === 'tank' && entry[5] === -6))? entry[3] : 17];
-                                        })),
-                                        team7map.update(minimap.map(function(entry) {
-                                            return [entry[1], entry[2], (entry[4] === 'miniboss' || (entry[4] === 'tank' && entry[5] === -7))? entry[3] : 17];
-                                        })),
-                                        team8map.update(minimap.map(function(entry) {
-                                            return [entry[1], entry[2], (entry[4] === 'miniboss' || (entry[4] === 'tank' && entry[5] === -8))? entry[3] : 17];
                                         })),
                                     ];
                                     let full = [
@@ -4448,9 +4628,6 @@ const sockets = (() => {
                                         team3map.exportall(),
                                         team4map.exportall(),
                                         team5map.exportall(),
-                                        team6map.exportall(),
-                                        team7map.exportall(),
-                                        team8map.exportall(),
                                     ];
                                     // The reader
                                     return (team, everything = false) => { return (everything) ? full[team-1] : clean[team-1]; };
@@ -4537,11 +4714,7 @@ const sockets = (() => {
                                 case -1: return 10;
                                 case -2: return 11;
                                 case -3: return 12;
-                                case -4: return 14;
-                                case -5: return  3;
-                                case -6: return  9;
-                                case -7: return 18;
-                                case -8: return  2;
+                                case -4: return 15;
                                 default: {
                                     if (room.gameMode === 'tdm') return entry.color;
                                     return 11;
@@ -4638,7 +4811,7 @@ const sockets = (() => {
                         // Remove empty values and process it
                         lb = flatten(topTen);
                         // Return the reader
-                        return (full = true) => {
+                        return (full = false) => {
                             return full ? lb.full : lb.updates;
                         };
                     };
@@ -4670,7 +4843,7 @@ const sockets = (() => {
                         lb = readlb(socket.status.needsFullLeaderboard);
                         socket.status.needsFullLeaderboard = false;
                         // Don't broadcast if you don't need to
-                        if (m !== [0] || lb !== [0, 0]) { socket.talk('b',...m ,...lb); }
+                        if (m !== [0] || lb !== [0, 0]) { socket.talk('b', ...m, ...lb); }
                     }
                 };
             })();
@@ -4725,8 +4898,8 @@ const sockets = (() => {
                     deceased: true,
                     requests: 0,
                     hasSpawned: false,
-                    needsFullMap: false,
-                    needsFullLeaderboard: false, 
+                    needsFullMap: true,
+                    needsFullLeaderboard: true, 
                     lastHeartbeat: util.time(),
                 };  
                 // Set up loops
@@ -5029,19 +5202,6 @@ var gameloop = (() => {
                             my.damageRecieved += damage._n * deathFactor._n;
                             n.damageRecieved += damage._me * deathFactor._me;
                         }
-                         /*************   HEAL  ***********/ 
-                      if (n.heal) {
-                        my.healed = true
-                        my.healedLevel = n.healToApply
-                        my.healTime = 5
-                        my.healedBy = n.master
-                      }
-                      if (my.heal) {
-                        n.healed = true
-                        n.healedLevel = my.healToApply
-                        n.healTime = 5
-                        n.healedBy = my.master
-                      }  
                        /*************   ICE  ***********/  
                       if (n.ice) {
                         my.iceed = true
@@ -5067,7 +5227,7 @@ var gameloop = (() => {
                         n.burnedLevel = my.burnToApply
                         n.burnTime = 25
                         n.burnedBy = my.master
-                      } 
+                      }
                       /*************   SHOCK  ***********/ 
                      if (n.shock) {
                         my.shocked = true
@@ -5094,6 +5254,28 @@ var gameloop = (() => {
                         n.poisonTime = 30
                         n.poisonedBy = my.master
                       }
+                      /************ POWER **********/
+                        if (n.power) { 
+                        my.powered = true
+                        my.poweredLevel = n.powerToApply
+                        my.powerTime = 30
+                        my.poweredBy = n.master
+                      }
+                      if (my.power) {
+                        n.powered = true
+                        n.poweredLevel = my.powerToApply
+                        n.powerTime = 30
+                        n.poweredBy = my.master
+                      }
+                      /************* Sticky         ***********/
+                      if (n.stick) {
+                         my.sticky = true
+                        my.stickTimer = 50
+                      }
+                          if (my.stick) {
+                        n.sticky = true
+                      n.stickTimer = 50
+                          }
                       /*************   TEAM CHANGE  ***********/
                       if (my.APPLY_TEAM && (! n.APPLY_TEAM)) {
                         n.team = my.team
@@ -5203,7 +5385,7 @@ var gameloop = (() => {
                 switch (instance.settings.hitsOwnType) {
                 case 'push': advancedcollide(instance, other, false, false); break;
                 case 'hard': firmcollide(instance, other); break;
-                case 'hardWithBuffer': firmcollide(instance, other, 30); break;
+                case 'hardWithBuffer': firmcollide(instance, other, 70); break;
                 case 'repel': simplecollide(instance, other); break;
                 }
             }     
@@ -5283,44 +5465,37 @@ function returnRandomRingPoint_Sword(radius) {
       let a = Math.random() * 8 * Math.PI
           return {x: radius * Math.cos(a), y: radius * Math.sin(a)}
 }
- // A less important loop. Runs at an actual 5Hz regardless of game speed.
-var healLoop = (() => {  
-    // fun stuff like RANBOWS! :D
-    function heal(my) {
-      entities.forEach(function(element) {
-        if (element.showheal) {
-            let loc = returnRandomRingPoint(element.size * 2.2)
-            var o = new Entity({
-            x: element.x + loc.x,
-            y: element.y + loc.y
-            })
-            o.define(Class['healEffect'])
-        }
-        if (element.healed && element.type == 'tank') {
-            let loc = returnRandomRingPoint(element.size * 2.2)
-            console.log(loc)
-            var o = new Entity({
-            x: element.x + loc.x,
-            y: element.y + loc.y
-            })
-            o.define(Class['healEffect'])
-          
-            if (!element.invuln) {
-              element.health.amount += element.health.max / (55 - element.healLevel);
-              element.shield.amount += element.shield.max / (35 - element.healLevel);
-                 }
-            element.healTime -= 1
-            if (element.healTime <= 0) element.healed = false
 
+/*var images = [];
+function preload() {
+    for (var i = 0; i < arguments.length; i++) {
+        images[i] = new Image();
+        images[i].src = preload.arguments[i];
+    }
+}
+
+//-- usage --//
+preload(
+    "http://domain.tld/gallery/image-001.jpg",
+    "http://domain.tld/gallery/image-002.jpg",
+    "http://domain.tld/gallery/image-003.jpg",
+)*/
+
+/*entities.forEach(function(element){
+if (o.emp) {
+          entities.forEach(function(newelement) {
+            let distancex = Math.abs(newelement.x - o.x)
+            let distancey = Math.abs(newelement.y - o.y)
+            let abs_distance = Math.sqrt((distancex * distancex) + (distancey * distancey))
+            if (abs_distance <= 1000 && abs_distance > 10) {
+              newelement.isEMPd = true
+              newelement.empTime = 40
             }
-          }
-    )}
-    return () => {
-        //run the heal crap
-        heal()
-    };
-})(); 
-  // A less important loop. Runs at an actual 5Hz regardless of game speed.
+          })
+        }*/
+this.isEMPd
+this.empTime = 0
+  
 var iceLoop = (() => {
     // Fun stuff, like RAINBOWS :D
     function ice(my) {
@@ -5333,6 +5508,7 @@ var iceLoop = (() => {
             Math.random() < 0.5 ? x *= Math.random() + 1 : x
             Math.random() < 0.5 ? y *= Math.random() + 1 : y*/
             let loc = returnRandomRingPoint(element.size * 2.2)
+            //console.log(loc)
             var o = new Entity({
             x: element.x + loc.x,
             y: element.y + loc.y
@@ -5347,7 +5523,7 @@ var iceLoop = (() => {
             Math.random() < 0.5 ? x *= Math.random() + 1 : x
             Math.random() < 0.5 ? y *= Math.random() + 1 : y*/
             let loc = returnRandomRingPoint(element.size * 2.2)
-            console.log(loc)
+            //console.log(loc)
             var o = new Entity({
             x: element.x + loc.x,
             y: element.y + loc.y
@@ -5357,8 +5533,6 @@ var iceLoop = (() => {
             if (!element.invuln) {
               element.velocity.x -= element.velocity.x / (0.8 - element.iceLevel);
               element.velocity.y -= element.velocity.y / (0.8 - element.iceLevel);
-              element.health.amount -= element.health.max / (25 - element.iceLevel);
-              element.shield.amount -= element.shield.max / (5 - element.iceLevel);
                  }
             element.iceTime -= 1
             if (element.iceTime <= 0) element.iceed = false
@@ -5366,7 +5540,7 @@ var iceLoop = (() => {
             if (element.health.amount <= 0 && element.iceedBy != undefined && element.iceedBy.skill != undefined) {
               element.iceedBy.skill.score += Math.ceil(util.getJackpot(element.iceedBy.skill.score));
               element.iceedBy.sendMessage('You killed ' + element.name + ' with Ice.');
-              element.sendMessage('You have been killed by ' + element.iceedBy.name + ' with Ice.')
+              element.sendMessage('You have been killed by ' + element.iceededBy.name + ' with Ice.')
             }
           }
       }
@@ -5376,18 +5550,55 @@ var iceLoop = (() => {
         ice()
     };
 })(); 
+entities.forEach(function(element){
+  if (element.healer) {
+          entities.forEach(function(newelement) {
+            let distancex = Math.abs(newelement.x - element.x)
+            let distancey = Math.abs(newelement.y - element.y)
+            let abs_distance = Math.sqrt((distancex * distancex) + (distancey * distancey))
+            if (abs_distance <= element.heal_radius && abs_distance > 0 && newelement.team == element.team && newelement.type == 'tank' && newelement.health.amount < newelement.health.max - (newelement.health.max* 1/50)) {
+              newelement.health.amount += newelement.health.max * (1 / element.heal_amount)
+              element.skill.score += 10
+              let loc = returnRandomRingPoint(newelement.size * 2.2)
+              let x = loc.x,
+                  y = loc.y
+              var o = new Entity({
+              x: newelement.x + x,
+              y: newelement.y + y
+              })
+              o.define(Class['healEffect'])
+            }
+          })
+}
+})
+    
+var rainbowLoop = (() => {
+    // Fun stuff, like RAINBOWS :D
+    function rainbow(my) {
+      entities.forEach(function(element) {
+        if (element.rainbow) {
+            (element.color >= 17) ? element.color = 0 : element.color++
+            //(element.children.color >= 17) ? element.children.color = 0 : element.children.color++
+        }  
+            element.rainbowTime -= 1
+            if (element.rainbowTime <= 0) {
+                element.rainbow = false
+                element.color = (room.gamemode === 'tdm') ? [10, 11, 12, 15, 13][(-element.team) - 1] : 12
+            }
+      }
+    )}
+    return () => {
+        // run the RAINBOW
+        rainbowLoop()
+    };
+})();
 var shockLoop = (() => {
     // Fun stuff, like RAINBOWS :D
     function shock(my) {
       entities.forEach(function(element) {
-        if (element.showshock) {/*
-            let x = element.size + 10
-            let y = element.size + 10
-            Math.random() < 0.5 ? x *= -1 : x
-            Math.random() < 0.5 ? y *= -1 : y
-            Math.random() < 0.5 ? x *= Math.random() + 1 : x
-            Math.random() < 0.5 ? y *= Math.random() + 1 : y*/
+        if (element.showshock) {
             let loc = returnRandomRingPoint(element.size * 2.2)
+            //console.log(loc)
             var o = new Entity({
             x: element.x + loc.x,
             y: element.y + loc.y
@@ -5395,14 +5606,8 @@ var shockLoop = (() => {
             o.define(Class['shockEffect'])
         }
         if (element.shocked && element.type == 'tank') {
-            /* let x = element.size + 10
-            let y = element.size + 10
-            Math.random() < 0.5 ? x *= -1 : x
-            Math.random() < 0.5 ? y *= -1 : y
-            Math.random() < 0.5 ? x *= Math.random() + 1 : x
-            Math.random() < 0.5 ? y *= Math.random() + 1 : y*/
             let loc = returnRandomRingPoint(element.size * 2.2)
-            console.log(loc)
+            //console.log(loc)
             var o = new Entity({
             x: element.x + loc.x,
             y: element.y + loc.y
@@ -5410,10 +5615,8 @@ var shockLoop = (() => {
             o.define(Class['shockEffect'])
           
               if (!element.invuln) {
-              element.velocity.x -= element.velocity.x * (0 * element.shocklevel);
-              element.velocity.y -= element.velocity.y * (0 * element.shocklevel);
-              element.health.amount -= element.health.max / (130 - element.shockLevel);
-              element.shield.amount -= element.shield.max / (80 - element.shockLevel);
+              element.health.amount -= element.health.max / (130 - element.shockLevel)
+              element.shield.amount -= element.shield.max / (80 - element.shockLevel)
             }
            
             element.shockTime -= 1
@@ -5436,14 +5639,9 @@ var burnLoop = (() => {
     // Fun stuff, like RAINBOWS :D
     function burn(my) {
       entities.forEach(function(element) {
-        if (element.showburn) {/*
-            let x = element.size + 10
-            let y = element.size + 10
-            Math.random() < 0.5 ? x *= -1 : x
-            Math.random() < 0.5 ? y *= -1 : y
-            Math.random() < 0.5 ? x *= Math.random() + 1 : x
-            Math.random() < 0.5 ? y *= Math.random() + 1 : y*/
+        if (element.showburn) {
             let loc = returnRandomRingPoint(element.size * 2.2)
+            //console.log(loc)
             var o = new Entity({
             x: element.x + loc.x,
             y: element.y + loc.y
@@ -5451,14 +5649,8 @@ var burnLoop = (() => {
             o.define(Class['burnEffect'])
         }
         if (element.burned && element.type == 'tank') {
-            /* let x = element.size + 10
-            let y = element.size + 10
-            Math.random() < 0.5 ? x *= -1 : x
-            Math.random() < 0.5 ? y *= -1 : y
-            Math.random() < 0.5 ? x *= Math.random() + 1 : x
-            Math.random() < 0.5 ? y *= Math.random() + 1 : y*/
             let loc = returnRandomRingPoint(element.size * 2.2)
-            console.log(loc)
+            //console.log(loc)
             var o = new Entity({
             x: element.x + loc.x,
             y: element.y + loc.y
@@ -5466,8 +5658,8 @@ var burnLoop = (() => {
             o.define(Class['burnEffect'])
           
               if (!element.invuln) {
-              element.health.amount -= element.health.max / (100 - element.burnLevel);
-              element.shield.amount -= element.shield.max / (85 - element.burnLevel);
+              element.health.amount -= element.health.max / (100 - element.burnLevel)
+              element.shield.amount -= element.shield.max / (85 - element.burnLevel)
             }
           
             element.burnTime -= 1
@@ -5491,14 +5683,9 @@ var poisonLoop = (() => {
     // Fun stuff, like RAINBOWS :D
     function poison(my) {
       entities.forEach(function(element) {
-        if (element.showpoison) {/*
-            let x = element.size + 10
-            let y = element.size + 10
-            Math.random() < 0.5 ? x *= -1 : x
-            Math.random() < 0.5 ? y *= -1 : y
-            Math.random() < 0.5 ? x *= Math.random() + 1 : x
-            Math.random() < 0.5 ? y *= Math.random() + 1 : y*/
+        if (element.showpoison) {
             let loc = returnRandomRingPoint(element.size * 2.2)
+            //console.log(loc)
             var o = new Entity({
             x: element.x + loc.x,
             y: element.y + loc.y
@@ -5506,14 +5693,8 @@ var poisonLoop = (() => {
             o.define(Class['poisonEffect'])
         }
         if (element.poisoned && element.type == 'tank') {
-           /* let x = element.size + 10
-            let y = element.size + 10
-            Math.random() < 0.5 ? x *= -1 : x
-            Math.random() < 0.5 ? y *= -1 : y
-            Math.random() < 0.5 ? x *= Math.random() + 1 : x
-            Math.random() < 0.5 ? y *= Math.random() + 1 : y*/
             let loc = returnRandomRingPoint(element.size * 2.2)
-            console.log(loc)
+            //console.log(loc)
             var o = new Entity({
             x: element.x + loc.x,
             y: element.y + loc.y
@@ -5521,8 +5702,8 @@ var poisonLoop = (() => {
             o.define(Class['poisonEffect'])
            
             if (!element.invuln) {
-              element.health.amount -= element.health.max / (55 - element.poisonLevel);
-              element.shield.amount -= element.shield.max / (35 - element.poisonLevel);
+              element.health.amount -= element.health.max / (55 - element.poisonLevel)
+              element.shield.amount -= element.shield.max / (35 - element.poisonLevel)
             }
            
             element.poisonTime -= 1
@@ -5539,6 +5720,78 @@ var poisonLoop = (() => {
     return () => {
         // run the poison
         poison()
+    };
+})();
+var stickLoop = (() => {
+    // Fun stuff, like RAINBOWS :D
+    function stick(my) {
+      entities.forEach(function(element) {
+        if (element.poisoned && element.type == 'tank') {
+            let loc = returnRandomRingPoint(element.size * 2.2)
+            //console.log(loc)
+            var o = Entity({
+            x: element.x =+ loc.x,
+            y: element.y =+ loc.y
+            })
+           
+      
+            element.stickTime -= 1
+            if (element.poisonTime <= 0) element.poisoned = false
+           
+            if (element.health.amount <= 0 && element.poisonedBy != undefined && element.poisonedBy.skill != undefined) {
+              element.poisonedBy.skill.score += Math.ceil(util.getJackpot(element.poisonedBy.skill.score));
+              element.poisonedBy.sendMessage('You killed ' + element.name + ' with Poison.');
+              element.sendMessage('You have been killed by ' + element.poisonedBy.name + ' with Poison.')
+            }
+          }
+      }
+    )}
+    return () => {
+        // run the poison
+        stick()
+    };
+})();
+var powerLoop = (() => {
+    // Fun stuff, like RAINBOWS :D
+    function power(my) {
+      entities.forEach(function(element) {
+        if (element.showpower) {
+            let loc = returnRandomRingPoint(element.size * 2.2)
+            //console.log(loc)
+            var o = new Entity({
+            x: element.x + loc.x,
+            y: element.y + loc.y
+            })
+            o.define(Class['PowerEffect'])
+        }
+        if (element.powered && element.type == 'tank') {
+            let loc = returnRandomRingPoint(element.size * 2.2)
+            //console.log(loc)
+            var o = new Entity({
+            x: element.x + loc.x,
+            y: element.y + loc.y
+            })
+            o.define(Class['PowerEffect'])
+           
+            if (!element.invuln) {
+              element.health.amount -= element.health.max / (55 - element.powerLevel)
+              element.shield.amount -= element.shield.max / (35 - element.powerLevel)
+            }
+           
+            element.powerTime -= 1
+            if (element.powerTime <= 0) element.powered = false
+           
+            if (element.health.amount <= 0 && element.poweredBy != undefined && element.poweredBy.skill != undefined) {
+              element.poweredBy.skill.score += Math.ceil(util.getJackpot(element.poweredBy.skill.score));
+              element.poweredBy.sendMessage('You killed ' + element.name + ' with a Power.');
+              element.sendMessage('You have been killed by ' + element.poweredBy.name + ' with a Power.')
+            }
+          }
+      }
+    )}
+    return () => {
+        // run the power
+        power()
     };
 })();
 var maintainloop = (() => {
@@ -5597,14 +5850,14 @@ var maintainloop = (() => {
 
     // Spawning functions
     let spawnBosses = (() => {
-        let timer = 0
+        let timer = 0;
         let boss = (() => {
             let i = 0,
                 names = [],
                 bois = [Class.egg],
                 n = 0,
                 begin = 'something is about to move to a lower position',
-                arrival = 'Something happened let Dank know',
+                arrival = 'Something happened let CancelX know',
                 loc = 'norm';
             let spawn = () => {
                 let spot, m = 0;
@@ -5624,9 +5877,14 @@ var maintainloop = (() => {
                     names = ran.chooseBossName(nameClass, number);
                     i = 0;
                     if (n === 1) {
-                        begin = 'A boss is coming.';
+                        begin = 'A visitor is coming.';
                         arrival = names[0] + ' has arrived.'; 
-                    } 
+                    } else {
+                        begin = 'Visitors are coming.';
+                        arrival = '';
+                        for (let i=0; i<n-2; i++) arrival += names[i] + ', ';
+                        arrival += names[n-2] + ' and ' + names[n-1] + ' have arrived.';
+                    }
                 },
                 spawn: () => {
                     sockets.broadcast(begin);
@@ -5640,44 +5898,35 @@ var maintainloop = (() => {
             };
         })();
                return census => {
-            if (timer > 120 && ran.dice(160- timer)) {
+            if (timer > 60 && ran.dice(160 - timer)) {
                 util.log('[SPAWN] Preparing to spawn...');
-                timer = 0
+                timer = 0;
                 let choice = [];
-                switch (ran.chooseChance(60, 50, 10, 50, 45, 30, 35, 55)) {
+                switch (ran.chooseChance(60, 50, 50, 45, 30, 35, 55,)) {
                     case 1: 
                         choice = [[Class.elite_destroyer], 1, 'a', 'zone'];
-                        sockets.broadcast('Something elite is coming');
                         break;
                     case 2: 
-                        choice = [[Class.elite_gunner], 1, 'a', 'zone'];
-                        sockets.broadcast('Something elite is coming');
+                        choice = [[Class.elite_gunner], 1, 'a', 'zone']; 
                         break
-                    case 3:
-                        choice =[[Class.dank], 1, 'other', 'zone'];
-                        sockets.broadcast('???: It is almost time...');
-                        break;
-                    case 4: 
+                     case 4: 
                         choice = [[Class.elite_sprayer], 1, 'a', 'zone']; 
-                        sockets.broadcast('Something elite is coming');
                         break;
                     case 5: 
                         choice = [[Class.palisade], 1, 'castle', 'zone']; 
-                        sockets.broadcast('Incoming Palisade or Defender');
+                        sockets.broadcast('A strange trembling...');
                         break;
                     case 6: 
                         choice = [[Class.defender], 1, 'castle', 'zone']; 
-                        sockets.broadcast('Incoming Palisade or Defender');
+                        sockets.broadcast('A strange trembling...');
                         break;
                     case 7: 
-                        choice = [[Class.summoner], 1, 'a', 'zone'];
-                        sockets.broadcast('Summony Boi');
+                        choice = [[Class.summoner], 1, 'a', 'zone']; 
                         break;
                     case 8: 
-                        choice = [[Class.ulitmate_destroyer], 1, 'castle', 'zone']; 
-                        sockets.broadcast('Super Smash Brothers Ultimate');
+                        choice = [[Class.ulitmate_destroyer], 1, 'ultimate', 'zone']; 
+                        sockets.broadcast('Its Comming!, Prepare for Attack!');
                         break;
-
 
                 }
                 boss.prepareToSpawn(...choice);
@@ -5688,11 +5937,11 @@ var maintainloop = (() => {
     })();
             
     let spawnCrasher = census => {
-        if (ran.chance(1 - 0.5 * census.crasher / room.maxFood / room.nestFoodAmount)) {
+        if (ran.chance(1 -  9 * census.crasher / room.maxFood / room.nestFoodAmount)) {
             let spot, i = 30;
-            do { spot = room.randomType('nest'); i--; if (!i) return 0; } while (dirtyCheck(spot, 30 ));
-            let type = (ran.dice(30)) ? ran.choose([Class.sentryGun, Class.vis, Class.sentrySwarm, Class.sentryTrap, Class.pacsentryGun, Class.pacsentrySwarm, Class.pacsentryTrap, Class.pulsentryGun, Class.pulsentrySwarm, Class.pulsentryTrap, Class.clutsentryGun, Class.clutsentrySwarm, Class.clutsentryTrap]) : [Class.crasher, Class.packer, Class.pulsar, Class.vis][ran.chooseChance(50, 25, 15, 10)],
-                o = new Entity(spot);
+            do { spot = room.randomType('nest'); i--; if (!i) return 0; } while (dirtyCheck(spot, 100));
+            let type = (ran.dice(80)) ? ran.choose([Class.sentryGun, Class.sentrySwarm, Class.sentryTrap]) : Class.crasher;
+            let o = new Entity(spot);
                 o.define(type);
                 o.team = -100;
         }
@@ -5704,38 +5953,16 @@ var maintainloop = (() => {
                 let o = new Entity(loc);
                     o.define(Class.baseProtector);
                     o.team = -team;
-                    o.color = [10, 11, 12, 14, 3, 9, 18, 2][team-1];
+                    o.color = [10, 11, 12, 15, 13][team-1];
             };
-            for (let i=1; i<9; i++) {
+            for (let i=1; i<5; i++) {
                 room['bap' + i].forEach((loc) => { f(loc, i); }); 
-            };
-  if (room.doms)
-    for (let loc of room.doms) {
-      let o = new Entity(loc);
-      o.define(Class.destroyerDominator)
-      o.team = -100;
-      o.SIZE = 100;
-      o.color = 13;
-      o.ondead = () => {
-        let killers = []
-        for (let instance of o.collisionArray)
-          if (instance.team >= -8 && instance.team <= -1)//keep trACK of who killed it 8 
-            killers.push(instance.team)
-        let pwned = killers.length ? ran.choose(killers) : 0
-        
-        let n = new Entity(loc);
-        n.team = pwned || -100
-        n.SIZE = 100;
-        n.color = [13, 10, 11, 12, 14, 3, 9, 18, 2][-pwned]
-        n.ondead = o.ondead
-        o = n // need to implement a variable so it actually goes back to yellow, using gold as yellow is in use for a team | ok
-      }
-    }
+            }
         // Return the spawning function
         let bots = [];
         return () => {
             let census = {
-                crasher:  0,
+                crasher: 0,
                 miniboss: 0,
                 tank: 0,
             };    
@@ -5761,6 +5988,8 @@ var maintainloop = (() => {
                     o.color = 17;
                     bots.push(o);
                 }
+                // Kill bad classes
+                bots.forEach(o => { if (o.nobot === true) {o.kill();}})
                 // Remove dead ones
                 bots = bots.filter(e => { return !e.isDead(); });
                 // Slowly upgrade them
@@ -5784,11 +6013,15 @@ var maintainloop = (() => {
                 case 0: a = Class.egg; break;
                 case 1: a = Class.square; break;
                 case 2: a = Class.triangle; break;
-                case 3: a = Class.dentagon; break;
-                case 4: a = Class.pentagon; break;
-                case 5: a = Class.bigPentagon; break;
-                case 6: a = Class.hugePentagon; break;
-                case 7: a = Class.hexagon; break;
+                case 3: a = Class.pentagon; break;
+                case 4: a = Class.bigPentagon; break;
+                case 5: a = Class.hugePentagon; break;
+                case 6: a = Class.eggimp; break;
+                case 7: a = Class.gem; break;
+                case 8: a = Class.greensquare; break;
+                case 9: a = Class.greentriangle; break;
+                case 10: a = Class.greenpentagon; break;
+                case 11: a = Class.greenbigPentagon; break;
                 default: throw('bad food level');
             }
             if (a !== {}) {
@@ -5900,6 +6133,10 @@ var maintainloop = (() => {
             let spot = room.randomType('nest');
             placeNewFood(spot, 0.01 * room.width, 3, true);
         };
+        let makeGems = () => { // Make gems
+            let spot = room.randomType('roid');
+            placeNewFood(spot, 0.1 * room.width, 7);
+        };
         // Return the full function
         return () => {
             // Find and understand all food
@@ -5907,19 +6144,33 @@ var maintainloop = (() => {
                 [0]: 0, // Egg
                 [1]: 0, // Square
                 [2]: 0, // Triangle
-                [3]: 0, // Denta
-                [4]: 0, // Penta
-                [5]: 0, // Beta
-                [6]: 0, // Alpha
-                [7]: 0, // Hexa
+                [3]: 0, // Penta
+                [4]: 0, // Beta
+                [5]: 0, // Alpha
+                [6]: 0,
+                [7]: 0, // Gem
+                [8]: 0, // Shiny Square
+                [9]: 0, // Shiny Triangle
+                [10]: 0, // Shiny Penta
+                [11]: 0, // Shiny Beta
+                [12]: 0,
                 tank: 0,
                 sum: 0,
             };
             let censusNest = {
-                [3]: 0, // Denta
-                [4]: 0, // Penta
-                [5]: 0, // Beta
-                [6]: 0, // Alpha
+                [0]: 0, // Egg
+                [1]: 0, // Square
+                [2]: 0, // Triangle
+                [3]: 0, // Penta
+                [4]: 0, // Beta
+                [5]: 0, // Alpha
+                [6]: 0,
+                [7]: 0, // Gem
+                [8]: 0, // Shiny Square
+                [9]: 0, // Shiny Triangle
+                [10]: 0, // Shiny Penta
+                [11]: 0, // Shiny Beta
+                [12]: 0,
                 sum: 0,
             };
             // Do the censusNest
@@ -5935,7 +6186,7 @@ var maintainloop = (() => {
                 } catch (err) { util.error(instance.label); util.error(err); instance.kill(); }
             }).filter(e => { return e; });     
             // Sum it up   
-            let maxFood = 1 + room.maxFood + 9 * census.tank;      
+            let maxFood = 1 + room.maxFood + 15 * census.tank;      
             let maxNestFood = 1 + room.maxFood * room.nestFoodAmount;
             let foodAmount = census.sum;
             let nestFoodAmount = censusNest.sum;
@@ -5943,10 +6194,11 @@ var maintainloop = (() => {
             foodSpawners.forEach(spawner => { if (ran.chance(1 - foodAmount/maxFood)) spawner.rot(); });
             /************** MAKE FOOD **************/
             while (ran.chance(0.8 * (1 - foodAmount * foodAmount / maxFood / maxFood))) {
-                switch (ran.chooseChance(2, 1)) {
+                switch (ran.chooseChance(10, 4, 2, 1)) {
                 case 0: makeGroupedFood(); break;
                 case 1: makeDistributedFood(); break;
                 case 2: makeCornerFood(); break;
+                case 3: makeGems(); break;
                 }
             } 
             while (ran.chance(0.5 * (1 - nestFoodAmount * nestFoodAmount / maxNestFood / maxNestFood))) makeNestFood();
@@ -6059,10 +6311,10 @@ var websockets = (() => {
 
 // Bring it to life
 setInterval(poisonLoop, room.cycleSpeed * 7);
+setInterval(powerLoop, room.cycleSpeed * 20);
 setInterval(burnLoop, room.cycleSpeed * 7);
 setInterval(shockLoop, room.cycleSpeed * 7);
 setInterval(iceLoop, room.cycleSpeed * 7);  
-setInterval(healLoop, room.cycleSpeed * 7);
 setInterval(gameloop, room.cycleSpeed);
 setInterval(maintainloop, 200);
 setInterval(speedcheckloop, 1000);
@@ -6094,224 +6346,656 @@ process.on("SIGINT", () => {
     }
 });
 
-const Eris = require('eris');
-const prefix = '/'
-const bot = new Eris.CommandClient(process.env.bot_token, {}, {
-    description: 'The Dankarras bot.',
-    owner: 'Ɗคᶇƙツ',
-    prefix: prefix
+
+
+/*const Eris = require('eris');
+const bot = new Eris('NDc5MjY0NzU2Mzk0NjIyOTc2.DlWtsg.CYDcqIdJ56gYYfQ42_SXh1tfAbY');   
+ 
+bot.on('ready', () => {                             
+    console.log('\nBot ready!\n');    
+    var canLogToDiscord = true
 });
-
-//ready
-bot.on('ready', () => {
-    console.log('Bot ready!');  
-});
-
-//ping
-bot.registerCommand('ping', "Pong! The bot is up and running. Feel free to play!", {
-    description: 'Tells you if the bot is up.',
-    fullDescription: 'Tells you if the bot is up.'
-})
-
-//select
-bot.registerCommand('select', (msg, args) => {
-    let sendError = true
-    let lookfor = msg.content.split(prefix + "select ").pop()
-    entities.forEach(function(element) {
-        if (typeof element.sendMessage == "function" && element.name == lookfor) {
-            sendError = false
-            bot.createMessage(msg.channel.id, String(element.name + '\nTank: ' + element.label + '\nId: ' + element.id + '\nAlpha: ' + element.alpha + '\nColor: ' + element.blend.amount + '\nMax Health: '  + element.health.max + '\nCurrent Health: '  + element.health.amount + '\nIs Invulnerable: ' + element.invuln + '\nScore: ' + element.photo.score + '\nLevel: ' + element.skill.level));
+ 
+var unauth = '```patch\n- ERROR: UNATHORIZED USER```'
+var mliststring = ''
+var mliststring2 = ''
+var botstr_storage = undefined
+    var mt_msg
+    function jointxt(v1, v2, v3, v4, v5, v6 ,v7, v8, v9, v10) {
+        var txtreturn = ''
+        if (v1 != '') {
+            txtreturn = txtreturn + v1
         }
-    })
-    if (sendError) {
-        return "Was unable to find an entity by that name";
+        if (v2 != '') {
+            txtreturn = txtreturn + v2
+        }
+        if (v3 != '') {
+            txtreturn = txtreturn + v3
+        }
+        if (v4 != '') {
+            txtreturn = txtreturn + v4
+        }
+        if (v5 != '') {
+            txtreturn = txtreturn + v5
+        }
+        if (v6 != '') {
+            txtreturn = txtreturn + v6
+        }
+        if (v7 != '') {
+            txtreturn = txtreturn + v7
+        }
+        if (v8 != '') {
+            txtreturn = txtreturn + v8
+        }
+        if (v9 != '') {
+            txtreturn = txtreturn + v9
+        }
+        if (v10 != '') {
+            txtreturn = txtreturn + v10
+        }
+        return txtreturn.toString();
+        
     }
-}, {
-    description: 'Return some informations about an in-game player.',
-    fullDescription: 'Return some informations about an in-game player.',
-    usage: '<player>',
-    argsRequired: true
-})
+/*mlist.forEach(function(element) {
+  if (mliststring.length < 1970) {
+    mliststring += element += ', ';
+  } else {
+    mliststring2 += element += ', '
+  }
+});*/
 
-//players
-bot.registerCommand('players', () => {
-    let output = '`'
-    entities.forEach(function(element) {
-        if (element.name != '') {
-            output += String(element.name + '  -  ' + element.id + '\n')
-        }
-    })
-    output += '`'
-    return output
-}, {
-    description: 'List in-game players.',
-    fullDescription: 'List in-game players.'
-})
+/*function parse(input) {
+  let out =  input.split(" "); 
+  return out
+}
 
-//query
-bot.registerCommand('query', (msg, args) => {
-    let output = ''
-    var query = args[0]
-    var botreturn = eval('Class.' + query);
-    for (var key in botreturn) {
-        if (output.length > 500) {
-            console.log(output.length);
-            return output;
-            output = ''
+bot.on('messageCreate', (msg) => {
+  try {    
+    if (msg.content.startsWith('!makeEntityx')) {
+        let printerror = true
+        let command = parse(msg.content)
+        let mt_exportsname = command[1]
+        let mt_parent = command[2]
+        let mt_label = command[3]
+        let mt_shape = command[4].toString();
+        let mt_motiontyp = command[5]
+        let mt_facetyp = command[6]
+        let mt_size = command[7].toString();
+        let mt_maxchi = command[8].toString();
+        //let mt_body = command[9] this one wont work
+        //let mt_guns = command[10] this one wont work
+        //let mt_turrets = command[11] this one wont work
+      
+        bot.createMessage(msg.channel.id, '``` \n ' + '     exports.' + mt_exportsname + ' = { \n         PARENT: [exports.' + mt_parent + '] \n         LABEL: \u0027' + mt_label + '\u0027 \n         SHAPE: ' + mt_shape + '\n         MOTION_TYPE: \u0027' + mt_motiontyp + '\u0027 \n ' + '        FACING_TYPE: \u0027' + mt_facetyp + '\u0027' + '  \n ' + '        SIZE: ' + mt_size + ', \n         MAX_CHILDREN: ' + mt_maxchi + ',' + '```');
+    }
+
+    if (msg.content.startsWith('!makeEntity')) {
+        let printerror = true
+        let command = parse(msg.content)
+        let mt_exportsname = command[1]
+        let mt_parent = command[2]
+        let mt_label = command[3]
+        let mt_shape = command[4].toString();
+        let mt_motiontyp = command[5]
+        let mt_facetyp = command[6]
+        let mt_size = command[7].toString();
+        let mt_maxchi = command[8].toString();
+        //let mt_body = command[9] this one wont work
+        //let mt_guns = command[10] this one wont work
+        //let mt_turrets = command[11] this one wont work
+        let mt_msg_prt1 = ""
+        let mt_msg_prt2 = ""
+        let mt_msg_prt3 = ""
+        let mt_msg_prt4 = ""
+        let mt_msg_prt5 = ""
+        let mt_msg_prt6 = ""
+        let mt_msg_prt7 = ""
+
+        mt_msg_prt1 = "``` \n " + "    exports." + mt_exportsname + "\n         PARENT: [exports." + mt_parent + "] \n         LABEL: \u0027" + mt_label + "\u0027 \n"
+        if (mt_shape.isNaN != true) {
+            mt_msg_prt2 = "         SHAPE: " + mt_shape + "\n"
         }
-        output += String(key) + ': ' + eval('Class.' + query + '.' + String(key)) + '\n'
-        var returned = typeof eval('Class.' + query + '.' + String(key))
-        if (returned == 'object') {
-            for (var key2 in eval('Class.' + query + '.' + String(key))) {
-                if (key2 != 'remove') {
+        if (mt_motiontyp != 'NaN') {
+            mt_msg_prt3 = "         MOTION_TYPE: \u0027" + mt_motiontyp + "\u0027 \n"
+        }
+        if (mt_facetyp != 'NaN') {
+            mt_msg_prt4 = "         FACING_TYPE: \u0027" + mt_facetyp + "\u0027" + "  \n"
+        }
+        if (mt_size.isNaN != true) {
+            mt_msg_prt5 = "         SIZE: " + mt_size + ", \n"
+        }
+        if (mt_size.isNaN != true) {
+            mt_msg_prt6 = "         MAX_CHILDREN: " + mt_maxchi + ", \n     };"
+        }
+        mt_msg_prt7 = "```"
+
+        mt_msg = jointxt(mt_msg_prt1, mt_msg_prt2, mt_msg_prt3, mt_msg_prt4, mt_msg_prt5, mt_msg_prt6, mt_msg_prt7, '', '', '')
+        bot.createMessage(msg.channel.id, mt_msg);// ima rlly have to *re*define the push fuctoin  TRIGGERED (edit:lol made it better thik it would be better this way anyays)
+    }
+
+    if (msg.content.startsWith("cx(select)")) {
+      if (process.env.ISONGLITCH == undefined) {
+      let sendError = true
+      let lookfor = msg.content.split(">select ").pop()
+      entities.forEach(function(element) {
+        if (typeof element.sendMessage == "function" && element.name == lookfor) {
+          sendError = false
+          bot.createMessage(msg.channel.id, String(element.name + '\nTank: ' + element.label + '\nId: ' + element.id + '\nAlpha: ' + element.alpha + '\nColor: ' + element.blend.color + '\nMax Health: '  + element.health.max + '\nCurrent Health: '  + element.health.amount + '\nIs Invulnerable: ' + element.invuln + '\nScore: ' + element.photo.score + '\nLevel: ' + element.skill.level));
+        }
+      })
+      if (sendError) {
+        bot.createMessage(msg.channel.id, "Was unable to find an entity by that name");
+      }
+    }}
+    if (msg.content == 'cx(server)') {
+      bot.createMessage(msg.channel.id, 'data!\n' + "\nConnections amount: " + global.extPlayers + "\nRunning on glitch: " + process.env.ISONGLITCH + "\nDirectory: " + __dirname + "\nFile name: " + __filename);
+    }
+
+    if (msg.content == 'cx(list)') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "We're sorry but this command doesn't work yet.");
+    }}
+
+
+
+    if (msg.content.startsWith('cx(store) add ')) { //still working on this
+        let printerror = false
+        let error = ''
+        let command = parse(msg.content)
+        let mt_command = command[1]
+
+        if (mt_command = undefined) {printerror = true; error = 'Value to add is undefined'}
+
+        if (printerror != true) {        
+            bot.createMessage(msg.channel.id, "storing function as ("+ mt_command +")"); 
+            botstr_storage.append(mt_command)
+        } else if (printerror === true) {
+            if (error != '') {
+                bot.createMessage(msg.channel.id, error);
+            } else {
+                bot.createMessage(msg.channel.id, "Somethings worng");
+            }
+        } else {
+            bot.createMessage(msg.channel.id, "Somethings worng");
+        }
+    }
+      if (msg.content.startsWith('cx(store) funtion id=')) { //still working on this
+        let printerror = false
+        let error = ''
+        let command = parse(msg.content)
+        let mt_command = command[1]
+
+        if (mt_command = undefined) {printerror = true; error = 'Value to add is undefined'}
+
+        if (printerror != true) {        
+            bot.createMessage(msg.channel.id, "storing function to ID ["+ mt_command +"]"); 
+            botstr_storage.append(mt_command)
+        } else if (printerror === true) {
+            if (error != '') {
+                bot.createMessage(msg.channel.id, error);
+            } else {
+                bot.createMessage(msg.channel.id, "Somethings worng");
+            }
+        } else {
+            bot.createMessage(msg.channel.id, "Somethings worng");
+        }
+    }
+     if (msg.content.startsWith('cx(store) insert ')) { //still working on this
+        let printerror = false
+        let error = ''
+        let command = parse(msg.content)
+        let mt_command = command[1]
+        let str_index = command[2]
+
+        if (mt_command = undefined) {printerror = true; error = 'Value to add is undefined'}
+        if (str_index = undefined) {printerror = true; error = 'Index to add to is undefined'}
+        if (str_index > botstr_storage.length) {printerror = true; error = 'Index to add to is higher than the lists length'}
+        
+      bot.createMessage(msg.channel.id, "Inserting (```"+ mt_command +"```) to index ```" + mt_command + "``` of the store list"); 
+      botstr_storage.insert(str_index, mt_command)
+     }
+    if (msg.content.startsWith('cx(store) clear')) { //still working on this
+        bot.createMessage(msg.channel.id, "Clearing the store list"); 
+        botstr_storage = undefined
+    }
+    if (msg.content == 'cx(store) list') { //still working on this
+        bot.createMessage(msg.channel.id, "We're sorry but this command doesn't work yet.");
+    }
+    if (msg.content == 'cx(execute) {harm:(effect)} [type=poisonEffect]') {
+      let printerror = true
+        let command = parse(msg.content)
+        let mt_value = command[1]
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "could not execute [value=poisonEffect] to valid entity");
+    }}
+    if (msg.content == 'cx(execute) {harm:(effect)} [type=iceEffect]') {
+      let printerror = true
+        let command = parse(msg.content)
+        let mt_value  = command[1]
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "could not execute [value=iceEffect] to valid entity");
+    }}
+     if (msg.content == 'cx(execute) {harm:(effect)} [type=burnEffect]') {
+      let printerror = true
+        let command = parse(msg.content)
+        let mt_value  = command[1]
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "could not execute [type=burnEffect] to valid entity");
+    }}
+    if (msg.content == 'cx(execute) {harm:(effect)} [type=shockEffect]') {
+      let printerror = true
+        let command = parse(msg.content)
+        let mt_value  = command[1]
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "could not execute [value=shockEffect] to valid entity");
+    }}
+    if (msg.content == 'cx(execute) {harm:(effect)} [type=healthEffect]') {
+      let printerror = true
+        let command = parse(msg.content)
+        let mt_value  = command[1]
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "could not execute [type=healthEffect] to valid entity");
+    }}
+    if (msg.content == 'cx(execute)') {
+      let printerror = true
+        let command = parse(msg.content)
+        let mt_value  = command[1]
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "could not execute [] to valid entity");
+    }} 
+    
+    
+//---------------------------------------------------------------------------------------------//
+    //commands inprogress ^
+    
+    if (msg.content == 'hey arrascraft how are you') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "I'm good, is there anything i can help you with.");
+    }}
+    if (msg.content == 'arrascraft are you gay') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "yes i am :point_right: :ok_hand:   :smirk:"); // lol
+    }}
+    if (msg.content == 'yes arrascraft') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Ok just here is a list of what i can do !dhelp");
+    }}
+     if (msg.content == 'arrascraft hello') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Oh hi");
+    }}
+         if (msg.content == 'hello arrascraft') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Hi");
+    }}
+     if (msg.content == 'hi arrascraft') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Hello there");
+    }}
+    if (msg.content == 'hello i am baymax, your personal health care companion') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "ok");
+    }}
+    if (msg.content == 'arrascraft i need help') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "ok what for");
+    }}
+    if (msg.content == 'XD arrascraft') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "whats so funny");
+    }}
+    if (msg.content == 'arrascraft do you get mad') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "only when i'm mad");
+    }}
+    if (msg.content == 'arrascraft do you have feelings') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "not alot");
+    }}
+    if (msg.content == 'arrascraft i need you to kill arrascraft') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "ask CancelX frist");
+    }}
+    if (msg.content == 'arrascraft lets talk') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Go for it i'm a great listener :wink:");
+    }}
+    if (msg.content == 'arrascraft whats up') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "nothing much");
+    }}
+    if (msg.content == 'arrascraft hows life') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "virtual");
+    }}
+    if (msg.content == 'arrascraft your so cool') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "so are you :thumbsup: ");
+    }}
+     if (msg.content == 'arrascraft what ya doing') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "nothing yet...");
+    }}
+    if (msg.content == 'sure arrascraft') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Ok just here is a list of what i can do cx(help)");
+    }}
+    if (msg.content == 'arrascraft what can you do') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "~~alot of things~~");
+    }}
+     if (msg.content == 'thx arrascraft') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Anytime");
+    }}
+    if (msg.content == 'arrascraft whats going on') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "nothing right now...");
+    }}
+     if (msg.content == 'arrascraft do you hate me') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Nope. not yet");
+    }}
+    if (msg.content == 'arrascraft do you like Dank?') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "I have to XD");
+    }}
+    if (msg.content == 'arrascraft whats your favorite game') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Dankarras and Arrascraft :D");
+    }}
+    if (msg.content == 'arrascraft can you give me BT') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "sure, press Ctrl+w on the server");
+    }}
+    if (msg.content == 'arrascraft can you help me') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "sure");
+    }}
+    if (msg.content == 'arrascraft how are you') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Im good");
+    }}
+    if (msg.content == 'arrascraft how was your day') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "it was good how about yours");
+    }}
+    if (msg.content == 'arrascraft whats 1 + 1') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "2... i think");
+    }}
+     if (msg.content == 'arrascraft') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "yes?");
+    }}
+     if (msg.content == 'arrascraft!!!') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "What");
+    }}
+    if (msg.content == 'arrascraft where trying to talk to you but your not answering') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "Oh sry i only can read some types of messages ask CancelX to fix me");
+    }}
+     if (msg.content == 'arrascraft k') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "K");
+    }}
+     if (msg.content == '@arrascraft#3144') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, ":hyperpinged:");
+    }}
+    if (msg.content == 'arrascraft kk') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "K K");
+    }}
+     if (msg.content == 'arrascraft do you eat') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "nope.");
+    }}
+    if (msg.content == 'arrascraft do you like pizza') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "I can't eat.");
+    }}
+    if (msg.content == 'arrascraft no u') {
+      if (process.env.ISONGLITCH == undefined) {
+        bot.createMessage(msg.channel.id, "_ _", {file: "https://cdn.glitch.com/b52d0e3a-9ca1-4d21-a1a9-98a121573186%2Fno%20u%20inf%20spell%20card.png?1539894150456"});
+      }}   
+  //---------------------------------------------------------------
+     // arrascraft personality ^
+    /*
+    if (msg.content.startsWith('cx(log)')) {
+        let printerror = true
+        let command = parse(msg.content)
+        let log = command[1]
+              bot.createMessage(msg.channel.id, "loging ("+ log +")") 
+              console.log(log);
+     };
+    if (msg.content == 'cx(channel) yt') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "https://www.youtube.com/channel/UC273PMYo4H8risjneEQxO0g");
+    }}   
+       if (msg.content == 'cx.channel') { // wot
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "");
+    }}
+     if (msg.content == 'cx(info)') {
+      if (process.env.ISONGLITCH == undefined) {
+      bot.createMessage(msg.channel.id, "i'm the offical arrascraft controller made for CancelX the DEV");
+      }}
+    if (msg.content.includes('cx(help)')) {
+      if (process.env.ISONGLITCH == undefined) {
+        bot.createMessage(msg.channel.id, '***COMMANDS*** \nPrefix: cx(command) \nuse parentheses \n \n**server**  -  tells u if the server is running\n**kill**  -  kills the server (Authorization required)\n**broadcast** *<message>*  -  broadcasts a message (Authorization required)\n**list**  -  Lists all tanks as their internal names\n**query** *<internalname>*  -  returns some data about a tank (use list first to get tank names that this will accept)\n**select** *<name>*  -  returns some data about in-game users\n**summon** *<type>* *<class>*  -  summons a thing\n**banish** *<id>*  -  Banishes a player (Authorization required)\n**players**  -  list in-game players\n**stat** *<id> <path to stat> <new value>*  -  modifies a stat (Authorization required)\n**!makeEntity** **  -  generates tank codes\n**info** **  -  What is my purpose?');
+    }}
+    if (msg.content == 'cx(kill)') {
+        console.log("\n SERVER TERMINATED BY AN AUTHORIZED USER \n")
+        bot.createMessage(msg.channel.id, 'Terminating.....');
+        process.emit("SIGINT")
+    }
+    if (msg.content.startsWith('cx(broadcast)')) {
+        if (process.env.ISONGLITCH == undefined) {
+        sockets.broadcast(msg.content.split("cx(broadcast)").pop() + " - " + msg.author.username)
+        bot.createMessage(msg.channel.id, 'Message Broadcasted.');
+        }
+  }
+    if (msg.content.startsWith('!br')) {
+        if (process.env.ISONGLITCH == undefined) {
+        sockets.broadcast(msg.content.split("!br").pop() + " ------- " + msg.author.username)
+        bot.createMessage(msg.channel.id, 'Message Broadcasted.');
+        }
+  }
+    if (msg.content.startsWith('cx(query)')) {
+      if (process.env.ISONGLITCH == undefined) {
+        let output = ''
+        var query = msg.content.split("cx(query) ").pop()
+        try {
+          var botreturn = eval('Class.' + query);
+          for (var key in botreturn) {
+            if (output.length > 500) {console.log(output.length); bot.createMessage(msg.channel.id, output); output = ''}
+            output += String(key) + ': ' + eval('Class.' + query + '.' + String(key)) + '\n'
+            var returned = typeof eval('Class.' + query + '.' + String(key))
+            if (returned == 'object') {
+              for (var key2 in eval('Class.' + query + '.' + String(key))) {
+                  if (key2 != 'remove') {
                     try {
-                        output += "^ " + String(key2) + ': ' + eval('Class.' + query + '.' + String(key) + '[' + String(key2) + ']') + '\n'
-                        var returned = typeof eval('Class.' + query + '.' + String(key) + '[' + String(key2) + ']')
-                        var returnedobj = eval('Class.' + query + '.' + String(key) + '[' + String(key2) + ']')
-                    } catch (err) {
-                        output += "^ " + String(key2) + ': ' + eval('Class.' + query + '.' + String(key) + '.' + String(key2)) + '\n'
-                        var returned = typeof eval('Class.' + query + '.' + String(key) + '.' + String(key2))
-                        var returnedobj = eval('Class.' + query + '.' + String(key) + '.' + String(key2))
+                      output += "^ " + String(key2) + ': ' + eval('Class.' + query + '.' + String(key) + '[' + String(key2) + ']') + '\n'
+                      var returned = typeof eval('Class.' + query + '.' + String(key) + '[' + String(key2) + ']')
+                      var returnedobj = eval('Class.' + query + '.' + String(key) + '[' + String(key2) + ']')
+                    } catch(err) {
+                      output += "^ " + String(key2) + ': ' + eval('Class.' + query + '.' + String(key) + '.' + String(key2)) + '\n'
+                      var returned = typeof eval('Class.' + query + '.' + String(key) + '.' + String(key2))
+                      var returnedobj = eval('Class.' + query + '.' + String(key) + '.' + String(key2))
                     }
                     if (returned == 'object') {
-                        for (var key3 in returnedobj) {
-                            if (key3 != 'remove') {
-                                try {
-                                    output += "^ ^ " + String(key3) + ': ' + eval('Class.' + query + '.' + String(key) + '[' + String(key2) + ']' + '[' + String(key3) + ']') + '\n'
-                                } catch (err) {
-                                    try {
-                                        output += "^ ^ " + String(key3) + ': ' + eval('Class.' + query + '.' + String(key) + '[' + String(key2) + ']' + '.' + String(key3)) + '\n'
-                                    } catch (err) {
-                                        try {
-                                            output += "^ ^ " + String(key3) + ': ' + eval('Class.' + query + '.' + String(key) + '.' + String(key2) + '[' + String(key3) + ']') + '\n'
-                                        } catch (err) {
-                                            output += "^ ^ " + String(key3) + ': ' + eval('Class.' + query + '.' + String(key) + '.' + String(key2) + '.' + String(key3)) + '\n'
-                                        }
-                                    }
-                                }
+                      for (var key3 in returnedobj) {
+                        if (key3 != 'remove') {
+                          try {
+                            output += "^ ^ " + String(key3) + ': ' + eval('Class.' + query + '.' + String(key) + '[' + String(key2) + ']' + '[' + String(key3) + ']') + '\n'
+                          } catch(err) {
+                            try {
+                              output += "^ ^ " + String(key3) + ': ' + eval('Class.' + query + '.' + String(key) + '[' + String(key2) + ']' + '.' + String(key3)) + '\n'
+                            } catch(err) {
+                              try {
+                                output += "^ ^ " + String(key3) + ': ' + eval('Class.' + query + '.' + String(key) + '.' + String(key2) + '[' + String(key3) + ']') + '\n'
+                              } catch(err) {
+                                output += "^ ^ " + String(key3) + ': ' + eval('Class.' + query + '.' + String(key) + '.' + String(key2) + '.' + String(key3)) + '\n'
+                              }
                             }
+                          }
                         }
+                      }
                     }
+                  }
                 }
+              }    
             }
-        }
-    }
-}, {
-    description: 'Return some informations about a tank.',
-    fullDescription: 'Return some informations about a tank.',
-    usage: '<tank>',
-    argsRequired: true
-})
-
-//broadcast
-bot.registerCommand('broadcast', (msg, args) => {
-    sockets.broadcast(args.join(' '));
-    return 'Message Broadcast!'
-}, {
-    description: 'Broadcast a message into the game.',
-    fullDescription: 'Broadcast a message into the game',
-    usage: '<message>',
-    argsRequired: true,
-    aliases: ['br']
-})
-
-//define
-bot.registerCommand('define', (msg, args) => {
-    if (args.length == 2) {
-        if (entities.filter(r => r.id == args[0])[0] == undefined) return "Couldn't find any players by the id: " + args[0]
-        if (Class[args[1]]) {
-            entities.filter(r => r.id == args[0])[0].define(Class[args[1]])
-            return 'Defined user as Class.' + args[1];
+          } catch(err) {
+            bot.createMessage(msg.channel.id, String(err));
+          }
+        bot.createMessage(msg.channel.id, output);
+      }}
+    if (msg.content.startsWith('cx(summon)')) {
+        var spawnClass = msg.content.split("summon ").pop().substr(0, 3)
+        console.log(msg.content.split("summon ").pop().substr(0, 3))
+        var type = msg.content.split(" ").pop()
+        if (spawnClass == 'bot') {
+          botSpawn = type
+          bot.createMessage(msg.channel.id, "Summoned bot, bot will spawn as " + type);
+        } else if (spawnClass == 'food') {
+          
         } else {
-            return args[1] + ' is not a valid tank';
+          bot.createMessage(msg.channel.id, "Was unable to complete request, unknown summon type: " + spawnClass);
         }
-    } else return 'Invaild usage. Do `' + prefix + 'help define` to view proper usage.'
-}, {
-    description: 'Define a player as a tank.',
-    fullDescription: 'Define a player as a tank',
-    usage: '<player id> <tank>',
-    requirements: {
-        roleNames: ['BT']
     }
-})
-
-//stat
-bot.registerCommand('stat', (msg, args) => {
-    let s_lookForId = args[0]
-    let s_statpath = args[1]
-    let s_newvalueTemp = args.slice(2)
-    let s_newvalue = ''
-    s_newvalueTemp.forEach(function(element) {
-        s_newvalue += element + ' '
-    });
-    console.log("New stat command: ", s_lookForId, s_statpath, s_newvalue, "Sent by:", msg.author.username, '(' + msg.author.id + ')')
-    if (s_newvalue) {
+    if (msg.content.startsWith('summon')) {
+        var spawnClass = msg.content.split("summon ").pop().substr(0, 3)
+        console.log(msg.content.split("summon ").pop().substr(0, 3))
+        var type = msg.content.split(" ").pop()
+        if (spawnClass == 'bot') {
+          botSpawn = type
+          bot.createMessage(msg.channel.id, "Summoned bot, bot will spawn as " + type);
+        } else if (spawnClass == 'food') {
+          
+        } else {
+          bot.createMessage(msg.channel.id, "Was unable to complete request, unknown summon type: " + spawnClass);
+        }
+    }
+  if (msg.content.startsWith("cx(banish)")) {
+      if (process.env.ISONGLITCH == undefined) {
+        let sendError = true
+        let lookfor = msg.content.split("!dbanish").pop()
         entities.forEach(function(element) {
-            if (element.id == s_lookForId) {
-                try {
-                    eval('element.' + s_statpath + ' = ' + s_newvalue)
-                } catch (err) {
-                    eval('element.' + s_statpath + ' = "' + s_newvalue + '"')
-                }
-                element.sendMessage("your stat " + s_statpath + ' has been changed to ' + s_newvalue)
-                return "Value set to " + String(eval('element.' + s_statpath))
-            }
-        })
-    }
-}, {
-    description: 'lol',
-    fullDescription: 'lol',
-    usage: '<id> <stat> <value>',
-    requirements: {
-        roleNames: ['BT2']
-    }
-})
-
-//kill
-bot.registerCommand('kill', (msg, args) => {
-    let sendError = true
-    entities.forEach(function(element) {
-        if (element.id == args[0]) {
+          if (element.id == lookfor) {
             sendError = false
-            element.destroy()
-            return msg.channel.id, "Player killed.";
+            element.x = NaN
+            element.sendMessage('you have been kicked by the DEV')
+            setTimeout(() => {
+            element.sendMessage('Reload to get out :P')}, 4000)
+            bot.createMessage(msg.channel.id, "user bannished");
+          }
+        })
+        if (sendError) {
+          bot.createMessage(msg.channel.id, "Was unable to find an entity by the id: " + lookfor);
         }
+    }}
+  if (msg.content.startsWith("cx(gto)")) {
+      if (process.env.ISONGLITCH == undefined) {
+        let sendError = true
+        let command = parse(msg.content)
+        let gt_id = command[1]
+        let gt_x = command[2]
+        let gt_y = command[3]
+        entities.forEach(function(element) {
+          if (element.id == gt_id) {
+            sendError = false
+            element.x = gt_x
+            element.y = gt_y
+            bot.createMessage(msg.channel.id, "user teleported to X:" + gt_x + "Y:" + gt_y);
+          }
+        })
+        if (sendError) {
+          bot.createMessage(msg.channel.id, "Was unable to find an entity by the id: " + gt_id);
+        }
+    }}
+  if (msg.content.startsWith("cx(killplayer)")) {
+      if (process.env.ISONGLITCH == undefined) {
+        let sendError = true
+        let lookfor = msg.content.split("cx(killplayer)").pop()
+        entities.forEach(function(element) {
+          if (element.id == lookfor) {
+            sendError = false
+            element.kill
+            element.sendMessage('FU')
+            bot.createMessage(msg.channel.id, "user killed");
+          }
+        })
+        if (sendError) {
+          bot.createMessage(msg.channel.id, "Was unable to find an entity by the id: " + lookfor);
+        }
+    }}   
+  if (msg.content.startsWith("cx(givernbw)")) {
+      if (process.env.ISONGLITCH == undefined) {
+        let sendError = true
+        let command = parse(msg.content)
+        let rnbw_id = command[1]
+        let rnbw_dur = command[2]
+        entities.forEach(function(element) {
+          if (element.id == rnbw_id) {
+            sendError = false
+            element.rainbowTime = rnbw_dur
+            element.rainbow = true
+            bot.createMessage(msg.channel.id, "Given rainbow for " + rnbw_dur + "calc. frames :gay_pride_flag:");
+          }
+        })
+        if (sendError) {
+          bot.createMessage(msg.channel.id, "Was unable to find an entity by the id: " + rnbw_id);
+        }
+    }}                                    
+  if (msg.content == 'cx(players)') {
+    let output = ''
+    entities.forEach(function(element) {
+    if (typeof element.sendMessage == "function" && element.name != '') {
+        output += String(element.name + '  -  ' + element.id + '\n')
+    }
     })
-    if (sendError) {
-        return msg.channel.id, "Was unable to find an entity by the id: " + args[0];
-    }
-}, {
-    description: 'Kill an in-game player.',
-    fullDescription: 'Kill an in-game player.',
-    argsRequired: true,
-    usage: '<id>',
-    requirements: {
-        roleNames: ['BT2']
-    }
-})
-
-//eval
-bot.registerCommand('eval', (msg, args) => {
-    try {
-        var command = args.join(' ')
-        console.log('new eval: ', command)
-        return "Evaluated. Output: " + eval(command);
-    } catch(err) {
-        return String(err)
-    }
-}, {
-    description: 'Evaluate',
-    fullDescription: 'Evaluate',
-    argsRequired: true,
-    usage: '<argument>',
-    requirements: {
-        roleNames: ['Owner']
-    }
-})
-
+    bot.createMessage(msg.channel.id, "Initializing player identification.."),
+    bot.createMessage(msg.channel.id, output)}
+  if (msg.content.startsWith('cx(stat) ')) {
+    let s_command = parse(msg.content)
+    let s_lookForId = s_command[1]
+    let s_statpath = s_command[2]
+    let s_newvalue = s_command[3]
+    entities.forEach(function(element) {
+    if (element.id == s_lookForId) {
+      try {
+        eval('element' + s_statpath + ' = ' + s_newvalue)
+      } catch(err) {
+        eval('element' + s_statpath + ' = "' + s_newvalue + '"')
+      }
+      bot.createMessage(msg.channel.id, "Value set to " + String(eval('element' + s_statpath)));
+    }})
+  }
+  if (msg.content.startsWith('cx(define)')) {
+  let printerror = true
+  let command = parse(msg.content)
+  let inputid = command[1]
+  let inputclass = command[2]
+  if (eval(Class[inputclass]) != undefined) {
+    entities.filter(r => r.id == inputid)[0].define(Class[inputclass])
+    printerror = false
+    bot.createMessage(msg.channel.id, 'Defined user as Class.' + inputclass);
+  } else {
+    bot.createMessage(msg.channel.id, inputclass + ' is not a valid tank');
+  }
+  if (printerror) {
+    bot.createMessage(msg.channel.id, "Couldn't find any users by the id: " + inputid);
+  }}
+    
+} catch(err) { // log the error in chat
+  bot.createMessage(msg.channel.id, String(err));
+}});
 bot.editStatus('online', {
-    name: prefix + 'help to use commands!',
-    type: 0
+  name: 'Type cx(help) for commands!',
+  type: 0
 });
 
-bot.connect();
+bot.connect();  */
