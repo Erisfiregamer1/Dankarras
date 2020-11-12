@@ -1,5 +1,5 @@
 module.exports = {
-    entry: "./arrasio/src/client/js/app.js",
+    entry: "./src/client/js/app.js",
     output: {
         path: require("path").resolve("./src/bin/client/js"),
         library: "app",
