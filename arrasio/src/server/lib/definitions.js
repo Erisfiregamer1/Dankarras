@@ -6,7 +6,11 @@ const combineStats = function(arr) {
         let data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
         arr.forEach(function(component) {
             for (let i = 0; i < data.length; i++) {
+                try {
                 data[i] = data[i] * component[i];
+                } catch (err) {
+                    data[i] = 1
+                }
             }  
         });
         return { 

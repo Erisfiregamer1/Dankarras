@@ -15,6 +15,6 @@ arras.io private sever hosted by: Ɗคᶇƙツ™©
 
 `VarixDog` (Dev of his server, DUH)
 
-`Eris` (Part-time dev of arrascraft, main dev of Arras2)
+`Eris` (Literally fixed the entirety of Dankarras and Arrascraft)
 
 `KoleOBlack` (Developer of ArrasShrine)
