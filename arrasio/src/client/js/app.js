@@ -1852,8 +1852,9 @@ const socketInit = (() => {
     })();
     // The initialization function (this is returned)
     return port => {
+        port = 3000
         console.log("trying to connect to server")
-        let socket = new WebSocket('wss://' + window.location.hostname + ':' + port);
+        let socket = new WebSocket('ws://' + window.location.hostname + ':' + port);
         console.log("Socket opened")
         // Set up our socket
         socket.binaryType = 'arraybuffer';

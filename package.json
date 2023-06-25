@@ -20,7 +20,7 @@
     "express": "^4.16.4",
     "fs": "^0.0.2",
     "google-closure-library": "^20200315.0.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^6.1.2",
     "gulp-jshint": "^2.0.1",
     "gulp-mocha": "^2.2.0",

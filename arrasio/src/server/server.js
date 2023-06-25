@@ -1,5 +1,5 @@
 /*jslint node: true */
-/*jshint -W061 */fasttalk
+/*jshint -W061 */
 /*global goog, Map, let */
 "use strict";
 
@@ -6319,8 +6319,8 @@ setInterval(gameloop, room.cycleSpeed);
 setInterval(maintainloop, 200);
 setInterval(speedcheckloop, 1000);
 
-// Graceful shutdown
-let shutdownWarning = false;
+/*// Graceful shutdown
+let shutdownWarning = true;
 if (process.platform === "win32") {
     var rl = require("readline").createInterface({
         input: process.stdin,
@@ -6345,8 +6345,6 @@ process.on("SIGINT", () => {
         }, 17000);
     }
 });
-
-
 
 /*const Eris = require('eris');
 const bot = new Eris('NDc5MjY0NzU2Mzk0NjIyOTc2.DlWtsg.CYDcqIdJ56gYYfQ42_SXh1tfAbY');   
